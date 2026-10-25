@@ -13,8 +13,8 @@ export const stack: { group: string; items: Tech[] }[] = [
   {
     group: "Build & ship",
     items: [
-      { name: "Git & GitHub", status: "in-use", what: "Version history for every change; powers the public changelog.", doc: "git-and-github", link: { label: "Repository", url: "https://github.com/camtoan-do/kamllistos" } },
-      { name: "GitHub Actions", status: "in-use", what: "Builds and checks every change; tests the live site and API every hour.", doc: "github-actions", link: { label: "Runs", url: "https://github.com/camtoan-do/kamllistos/actions" } },
+      { name: "Git & GitHub", status: "in-use", what: "Version history for every change; powers the public changelog.", doc: "git-and-github", link: { label: "Repository", url: "https://github.com/kamllistos/web" } },
+      { name: "GitHub Actions", status: "in-use", what: "Builds and checks every change; tests the live site and API every hour.", doc: "github-actions", link: { label: "Runs", url: "https://github.com/kamllistos/web/actions" } },
       { name: "Linux", status: "in-use", what: "All automation runs on Ubuntu runners; checks are shell and Node scripts.", doc: "github-actions" },
       { name: "Astro + TypeScript", status: "in-use", what: "Builds the site into plain static files: fast, with almost nothing to attack." },
       { name: "Cloudflare Workers", status: "in-use", what: "Hosts the site worldwide and runs the small API on /api." },

@@ -144,7 +144,7 @@ if (host === "kamllistos.com") {
   });
   await check("DNS: status page", async () => {
     const [target] = await resolveCname(`status.${PERSONAL}`);
-    if (target !== "camtoan-do.github.io") throw new Error(String(target));
+    if (target !== "kamllistos.github.io") throw new Error(String(target));
     return target;
   });
 }

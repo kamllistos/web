@@ -14,7 +14,7 @@ updated: 2026-10-17
 - **What it scans:** the JavaScript/TypeScript that powers the site, the [REST API](/docs/rest-api/), the build checks, and the GitHub Actions workflow files.
 - **Query pack:** `security-extended`, which covers more security issues than the default set.
 - **When it runs:** on every push to `main`, on every pull request, and weekly (to catch newly written queries for old code).
-- **Config:** [`.github/workflows/codeql.yml`](https://github.com/camtoan-do/kamllistos/blob/main/.github/workflows/codeql.yml).
+- **Config:** [`.github/workflows/codeql.yml`](https://github.com/kamllistos/web/blob/main/.github/workflows/codeql.yml).
 
 ## Where results go
 

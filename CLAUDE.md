@@ -9,7 +9,7 @@ Owner has no coding background: explain plainly, keep things simple, be honest.
 - Public read-only REST API on `/api/*` (`worker/index.ts`, GET only). Spec `public/openapi.json`; Postman collection `public/postman/` (run hourly via Newman in live checks).
 - DNS: Cloudflare. camtoan.me registered at Namecheap (nameservers seamus/tegan, auto-renew on, expires 2027-07-08); kamllistos.com registered at Cloudflare.
 - Email: Proton Mail, official@camtoan.me. MX/SPF/DKIM(3 CNAMEs)/DMARC must stay **DNS only** in Cloudflare.
-- Status page: status.camtoan.me (Upptime, repo camtoan-do/status, CNAME → camtoan-do.github.io, DNS only).
+- Status page: status.camtoan.me (Upptime, repo kamllistos/status, CNAME → kamllistos.github.io, DNS only).
 - Substack: camtoando.substack.com, pulled into /blog at build time (`src/substack.ts`).
 - Netlify: old host, kept briefly as fallback; to be deleted.
 

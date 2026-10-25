@@ -14,7 +14,7 @@ Most software is built on other people's code: libraries, frameworks, tools. Whe
 - **npm packages** (the site's build tools, like Astro) and **GitHub Actions** versions are checked **weekly**.
 - Small updates (minor and patch versions) are **grouped** into one pull request to keep the noise down.
 - **Security alerts** fire as soon as a known vulnerability affects a dependency, independent of the weekly schedule.
-- **Config:** [`.github/dependabot.yml`](https://github.com/camtoan-do/kamllistos/blob/main/.github/dependabot.yml).
+- **Config:** [`.github/dependabot.yml`](https://github.com/kamllistos/kamllistos/blob/main/.github/dependabot.yml).
 
 ## How an update gets merged
 

@@ -7,7 +7,7 @@ updated: 2026-10-17
 
 ## What it is
 
-**GitHub Actions** runs scripts automatically on GitHub's servers (Ubuntu Linux) when something happens, such as a push, a pull request or a schedule. Each set of steps is a *workflow*, defined in a file under [`.github/workflows/`](https://github.com/camtoan-do/kamllistos/tree/main/.github/workflows).
+**GitHub Actions** runs scripts automatically on GitHub's servers (Ubuntu Linux) when something happens, such as a push, a pull request or a schedule. Each set of steps is a *workflow*, defined in a file under [`.github/workflows/`](https://github.com/kamllistos/kamllistos/tree/main/.github/workflows).
 
 ## The workflows
 
@@ -18,7 +18,7 @@ updated: 2026-10-17
 | **CodeQL** | Every push to `main`, pull requests, weekly | Static security analysis. See [CodeQL](/docs/codeql/). |
 | **Status page** | Every 5 minutes (separate repo) | [status.camtoan.me](https://status.camtoan.me) records uptime and response time, and opens an issue automatically during an outage. |
 
-Results are public on the [Actions tab](https://github.com/camtoan-do/kamllistos/actions).
+Results are public on the [Actions tab](https://github.com/kamllistos/kamllistos/actions).
 
 ## How the workflows are secured
 

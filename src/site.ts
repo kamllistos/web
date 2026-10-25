@@ -113,8 +113,8 @@ export const site = {
       { label: "Mozilla Observatory", url: "https://developer.mozilla.org/en-US/observatory/analyze?host=kamllistos.com" },
       { label: "SSL Labs (HTTPS)", url: "https://www.ssllabs.com/ssltest/analyze.html?d=kamllistos.com" },
       { label: "Status page", url: "https://status.camtoan.me" },
-      { label: "Hourly live checks", url: "https://github.com/kamllistos/kamllistos/actions/workflows/live.yml" },
-      { label: "Source code", url: "https://github.com/kamllistos/kamllistos" },
+      { label: "Hourly live checks", url: "https://github.com/camtoan-do/kamllistos/actions/workflows/live.yml" },
+      { label: "Source code", url: "https://github.com/camtoan-do/kamllistos" },
     ],
   },
 

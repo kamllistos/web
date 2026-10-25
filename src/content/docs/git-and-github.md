@@ -7,7 +7,7 @@ updated: 2026-10-17
 
 ## What it is
 
-**Git** records every change to the site as a *commit*: what changed, when, and why. **GitHub** hosts that history online. The repository is public, so anyone can review exactly how the site is built: [github.com/kamllistos/kamllistos](https://github.com/kamllistos/kamllistos).
+**Git** records every change to the site as a *commit*: what changed, when, and why. **GitHub** hosts that history online. The repository is public, so anyone can review exactly how the site is built: [github.com/camtoan-do/kamllistos](https://github.com/camtoan-do/kamllistos).
 
 ## How it's used here
 

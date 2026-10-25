@@ -45,4 +45,4 @@ curl https://kamllistos.com/api/glossary?q=phishing
 | **Hardened headers** | Every response sets `nosniff`, HSTS, `no-referrer` and a CSP that allows nothing to load. |
 | **Open CORS, on purpose** | `Access-Control-Allow-Origin: *` is safe here *because* the data is public and nothing uses cookies. |
 
-Source: [`worker/index.ts`](https://github.com/kamllistos/kamllistos/blob/main/worker/index.ts).
+Source: [`worker/index.ts`](https://github.com/camtoan-do/kamllistos/blob/main/worker/index.ts).

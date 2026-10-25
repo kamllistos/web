@@ -109,9 +109,9 @@ export const site = {
     title: "This website",
     text: "Built as a static site with no server, database or login to attack, and served with a strict Content-Security-Policy, HSTS and anti-framing headers. Every change is checked automatically before it ships, and the live site is tested every hour. Don't take my word for it — check it yourself:",
     checks: [
-      { label: "Security headers scan", url: "https://securityheaders.com/?q=camtoan.me&followRedirects=on" },
-      { label: "Mozilla Observatory", url: "https://developer.mozilla.org/en-US/observatory/analyze?host=camtoan.me" },
-      { label: "SSL Labs (HTTPS)", url: "https://www.ssllabs.com/ssltest/analyze.html?d=camtoan.me" },
+      { label: "Security headers scan", url: "https://securityheaders.com/?q=kamllistos.com&followRedirects=on" },
+      { label: "Mozilla Observatory", url: "https://developer.mozilla.org/en-US/observatory/analyze?host=kamllistos.com" },
+      { label: "SSL Labs (HTTPS)", url: "https://www.ssllabs.com/ssltest/analyze.html?d=kamllistos.com" },
       { label: "Status page", url: "https://status.camtoan.me" },
       { label: "Hourly live checks", url: "https://github.com/camtoan-do/kamllistos/actions/workflows/live.yml" },
       { label: "Source code", url: "https://github.com/camtoan-do/kamllistos" },

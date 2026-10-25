@@ -31,7 +31,7 @@ export function getSubstackPosts(): Promise<SubstackPost[]> {
   cache ??= (async () => {
     try {
       const res = await fetch(site.substack.feed, {
-        headers: { "User-Agent": "Mozilla/5.0 (compatible; camtoan.me-build; +https://camtoan.me)" },
+        headers: { "User-Agent": "Mozilla/5.0 (compatible; kamllistos-build; +https://kamllistos.com)" },
         signal: AbortSignal.timeout(10_000),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);

@@ -1,5 +1,5 @@
 // Kamllistos public REST API — runs on Cloudflare Workers for /api/* only.
-// Everything else on camtoan.me is served as static files.
+// Everything else on kamllistos.com is served as static files.
 // Read-only by design: GET/HEAD/OPTIONS only, no user data, no secrets, strict input validation.
 import { categories, concepts } from "../src/features";
 
@@ -7,7 +7,7 @@ interface Env {
   ASSETS: { fetch(req: Request | string): Promise<Response> };
 }
 
-const SITE = "https://camtoan.me";
+const SITE = "https://kamllistos.com";
 const MAX_QUERY = 64;
 const MAX_RESULTS = 50;
 

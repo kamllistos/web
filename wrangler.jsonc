@@ -2,6 +2,12 @@
 // Page response headers come from public/_headers; API headers are set in worker/index.ts.
 {
   "name": "camtoan-me",
+  // Domains this Worker answers on (Cloudflare creates them on deploy).
+  // camtoan.me stays attached for now; a Cloudflare redirect rule sends it to kamllistos.com.
+  "routes": [
+    { "pattern": "kamllistos.com", "custom_domain": true },
+    { "pattern": "camtoan.me", "custom_domain": true }
+  ],
   "compatibility_date": "2026-10-13",
   "main": "./worker/index.ts",
   "assets": {

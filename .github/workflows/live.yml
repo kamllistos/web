@@ -10,9 +10,9 @@ on:
   workflow_dispatch:
     inputs:
       url:
-        description: "Site to check (default: https://camtoan.me)"
+        description: "Site to check (default: https://kamllistos.com)"
         required: false
-        default: "https://camtoan.me"
+        default: "https://kamllistos.com"
 
 permissions:
   contents: read
@@ -31,9 +31,9 @@ jobs:
       - name: Run checks
         # Pass the input via env, never inline in the script (avoids shell injection).
         env:
-          SITE_URL: ${{ inputs.url || 'https://camtoan.me' }}
+          SITE_URL: ${{ inputs.url || 'https://kamllistos.com' }}
         run: node scripts/check-live.mjs "$SITE_URL"
       - name: API contract tests (Postman collection via Newman)
         env:
-          SITE_URL: ${{ inputs.url || 'https://camtoan.me' }}
+          SITE_URL: ${{ inputs.url || 'https://kamllistos.com' }}
         run: npx -y newman@6 run public/postman/kamllistos-api.postman_collection.json --env-var "baseUrl=$SITE_URL" --reporters cli

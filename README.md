@@ -1,4 +1,4 @@
-# camtoan.me
+# Kamllistos
 
 [![CI](https://github.com/camtoan-do/kamllistos/actions/workflows/ci.yml/badge.svg)](https://github.com/camtoan-do/kamllistos/actions/workflows/ci.yml)
 [![Live checks](https://github.com/camtoan-do/kamllistos/actions/workflows/live.yml/badge.svg)](https://github.com/camtoan-do/kamllistos/actions/workflows/live.yml)
@@ -6,14 +6,14 @@
 
 The personal website of **Cam Toan Do**, cybersecurity coordinator. It offers practical security help for small businesses and individuals.
 
-**Live:** https://camtoan.me
+**Live:** https://kamllistos.com
 
 The site itself is a small portfolio project. It's a static site hardened like production infrastructure, and you can check every claim it makes.
 
 ## Architecture
 
 ```
-GitHub (main) ──push──▶ Cloudflare Workers build (Astro) ──▶ Cloudflare edge ──▶ https://camtoan.me
+GitHub (main) ──push──▶ Cloudflare Workers build (Astro) ──▶ Cloudflare edge ──▶ https://kamllistos.com
      │                                                                   ▲
      ├── CI: build + checks on every push / PR                           │
      └── Live checks: every hour + after each deploy ────────────────────┘
@@ -26,17 +26,17 @@ DNS: Cloudflare (domain registered at Namecheap)   ·   Email: Proton Mail (SPF,
 | Hosting | Cloudflare Workers static assets (free) | Deploys on git push, global edge network, unlimited traffic |
 | DNS | Cloudflare | Fast DNS; domain registered at Namecheap |
 | Email | Proton Mail | Custom domain, built-in PGP |
-| Writing | Substack | Posts are pulled from the RSS feed at build time into [/blog](https://camtoan.me/blog/) |
+| Writing | Substack | Posts are pulled from the RSS feed at build time into [/blog](https://kamllistos.com/blog/) |
 
 ## Security
 
 - **Small attack surface.** There's no server, database, login or third-party script.
 - **Strict headers** ([`public/_headers`](public/_headers)): a `Content-Security-Policy` (`default-src 'self'`) that allows no inline code, HSTS, `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy` and `Permissions-Policy`.
-- **Responsible disclosure:** [`/security`](https://camtoan.me/security) and [`security.txt`](https://camtoan.me/.well-known/security.txt) (RFC 9116).
-- **Encrypted contact:** [PGP key](https://camtoan.me/pgp.asc), fingerprint `9083 9B9E C1CD 87EB C933 EB78 49A2 57EE 9CAE 466F`.
+- **Responsible disclosure:** [`/security`](https://kamllistos.com/security) and [`security.txt`](https://kamllistos.com/.well-known/security.txt) (RFC 9116).
+- **Encrypted contact:** [PGP key](https://kamllistos.com/pgp.asc), fingerprint `9083 9B9E C1CD 87EB C933 EB78 49A2 57EE 9CAE 466F`.
 - **Email anti-spoofing:** SPF, DKIM and DMARC are set on the domain.
 
-You can verify these yourself: [securityheaders.com](https://securityheaders.com/?q=camtoan.me&followRedirects=on) · [Mozilla Observatory](https://developer.mozilla.org/en-US/observatory/analyze?host=camtoan.me) · [SSL Labs](https://www.ssllabs.com/ssltest/analyze.html?d=camtoan.me)
+You can verify these yourself: [securityheaders.com](https://securityheaders.com/?q=kamllistos.com&followRedirects=on) · [Mozilla Observatory](https://developer.mozilla.org/en-US/observatory/analyze?host=kamllistos.com) · [SSL Labs](https://www.ssllabs.com/ssltest/analyze.html?d=kamllistos.com)
 
 ## Reliability checks
 
@@ -51,10 +51,10 @@ Each live run writes a results table to its run summary on the [Actions tab](htt
 
 ## Docs, API & changelog
 
-- **Public docs:** [camtoan.me/docs](https://camtoan.me/docs/) — Git & GitHub, GitHub Actions, CodeQL, Dependabot, REST API & Postman, OWASP Top 10.
-- **Stack:** [camtoan.me/stack](https://camtoan.me/stack/) — every tool, honestly labelled in use / planned / lab.
-- **REST API:** read-only JSON on [`/api`](https://camtoan.me/api) ([`worker/index.ts`](worker/index.ts)), described by [`openapi.json`](public/openapi.json) and tested hourly with the [Postman collection](public/postman/kamllistos-api.postman_collection.json).
-- **Changelog:** [camtoan.me/changelog](https://camtoan.me/changelog/), generated from this repo's commit history.
+- **Public docs:** [kamllistos.com/docs](https://kamllistos.com/docs/) — Git & GitHub, GitHub Actions, CodeQL, Dependabot, REST API & Postman, OWASP Top 10.
+- **Stack:** [kamllistos.com/stack](https://kamllistos.com/stack/) — every tool, honestly labelled in use / planned / lab.
+- **REST API:** read-only JSON on [`/api`](https://kamllistos.com/api) ([`worker/index.ts`](worker/index.ts)), described by [`openapi.json`](public/openapi.json) and tested hourly with the [Postman collection](public/postman/kamllistos-api.postman_collection.json).
+- **Changelog:** [kamllistos.com/changelog](https://kamllistos.com/changelog/), generated from this repo's commit history.
 
 ## Project structure
 
@@ -98,4 +98,4 @@ Pushing to `main` deploys automatically.
 
 ## Contact
 
-[official@camtoan.me](mailto:official@camtoan.me) · Found a security issue? See [/security](https://camtoan.me/security).
+[official@camtoan.me](mailto:official@camtoan.me) · Found a security issue? See [/security](https://kamllistos.com/security).

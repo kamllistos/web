@@ -3,14 +3,14 @@
   "info": {
     "title": "Kamllistos API",
     "version": "1.0.0",
-    "description": "Small, public, read-only REST API behind camtoan.me. No authentication, no user data. GET only.",
+    "description": "Small, public, read-only REST API behind kamllistos.com. No authentication, no user data. GET only.",
     "contact": {
       "email": "official@camtoan.me"
     }
   },
   "servers": [
     {
-      "url": "https://camtoan.me"
+      "url": "https://kamllistos.com"
     }
   ],
   "paths": {

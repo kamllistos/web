@@ -1,10 +1,10 @@
 // Checks the live site from the outside, like a visitor would.
-// Usage: node scripts/check-live.mjs [https://camtoan.me]
+// Usage: node scripts/check-live.mjs [https://kamllistos.com]
 import { connect } from "node:tls";
 import { resolveMx, resolveTxt, resolveCname, resolveNs, resolve4, Resolver } from "node:dns/promises";
 import { appendFileSync } from "node:fs";
 
-const BASE = process.argv[2] ?? "https://camtoan.me";
+const BASE = process.argv[2] ?? "https://kamllistos.com";
 const host = new URL(BASE).hostname;
 const results = [];
 
@@ -92,49 +92,58 @@ await check("TLS certificate valid for 14+ days", () =>
   }),
 );
 
-// DNS: email and status-page records must stay intact (only for the real domain).
-if (host === "camtoan.me") {
+// camtoan.me is the owner's personal domain: it redirects here for now, and keeps the email + status page.
+const PERSONAL = "camtoan.me";
+if (host === "kamllistos.com") {
+  await check("camtoan.me redirects here", async () => {
+    const res = await get(`https://${PERSONAL}/`);
+    const to = res.headers.get("location") ?? "";
+    if (![301, 302, 307, 308].includes(res.status) || new URL(to, BASE).hostname !== host) throw new Error(`HTTP ${res.status} → ${to || "no redirect"}`);
+    return `${res.status} → ${to}`;
+  });
+
+  // DNS: email and status-page records on camtoan.me must stay intact.
   // Informational: where DNS points, asked straight from our authoritative nameserver
   // (bypasses resolver caches), plus the public view.
   try {
-    const ns = (await resolveNs(host)).sort();
+    const ns = (await resolveNs(PERSONAL)).sort();
     const auth = new Resolver();
     auth.setServers(await resolve4(ns[0]));
     const ask = async (r, name) => {
       try { return (await r.resolve4(name)).sort().join(", "); }
       catch (e) { try { return "CNAME " + (await r.resolveCname(name)).join(", "); } catch { return e.code; } }
     };
-    console.log(`\n::notice::DNS: nameservers ${ns.join(", ")} | authoritative apex ${await ask(auth, host)} | authoritative www ${await ask(auth, "www." + host)} | public apex ${await ask(new Resolver(), host)}`);
+    console.log(`\n::notice::DNS: nameservers ${ns.join(", ")} | authoritative apex ${await ask(auth, PERSONAL)} | authoritative www ${await ask(auth, "www." + PERSONAL)} | public apex ${await ask(new Resolver(), PERSONAL)}`);
   } catch (e) {
     console.log(`\n::notice::DNS lookup info unavailable: ${e.message}`);
   }
 
   await check("DNS: MX points to Proton", async () => {
-    const mx = (await resolveMx(host)).map((r) => r.exchange).sort();
+    const mx = (await resolveMx(PERSONAL)).map((r) => r.exchange).sort();
     if (!mx.includes("mail.protonmail.ch") || !mx.includes("mailsec.protonmail.ch")) throw new Error(mx.join(", "));
     return mx.join(", ");
   });
   await check("DNS: SPF + Proton verification", async () => {
-    const txt = (await resolveTxt(host)).map((r) => r.join(""));
+    const txt = (await resolveTxt(PERSONAL)).map((r) => r.join(""));
     if (!txt.some((t) => t.startsWith("v=spf1") && t.includes("_spf.protonmail.ch"))) throw new Error("SPF missing");
     if (!txt.some((t) => t.startsWith("protonmail-verification="))) throw new Error("Proton verification missing");
     return "SPF ok, verification ok";
   });
   await check("DNS: DMARC policy", async () => {
-    const txt = (await resolveTxt(`_dmarc.${host}`)).map((r) => r.join(""));
+    const txt = (await resolveTxt(`_dmarc.${PERSONAL}`)).map((r) => r.join(""));
     const dmarc = txt.find((t) => t.startsWith("v=DMARC1"));
     if (!dmarc) throw new Error("DMARC missing");
     return dmarc;
   });
   await check("DNS: 3 DKIM keys point to Proton", async () => {
     for (const k of ["protonmail", "protonmail2", "protonmail3"]) {
-      const [target] = await resolveCname(`${k}._domainkey.${host}`);
+      const [target] = await resolveCname(`${k}._domainkey.${PERSONAL}`);
       if (!target?.endsWith(".domains.proton.ch")) throw new Error(`${k}: ${target}`);
     }
     return "3/3 keys";
   });
   await check("DNS: status page", async () => {
-    const [target] = await resolveCname(`status.${host}`);
+    const [target] = await resolveCname(`status.${PERSONAL}`);
     if (target !== "camtoan-do.github.io") throw new Error(String(target));
     return target;
   });

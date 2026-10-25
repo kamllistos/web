@@ -7,11 +7,11 @@ updated: 2026-10-17
 
 ## What it is
 
-A **REST API** lets programs ask a website for data over HTTP and get structured answers back (JSON). The Kamllistos API exposes the site's public data: the security glossary and the changelog. It runs on Cloudflare Workers, which runs code at the network edge, and only for paths under `/api/`. Everything else on camtoan.me stays static files.
+A **REST API** lets programs ask a website for data over HTTP and get structured answers back (JSON). The Kamllistos API exposes the site's public data: the security glossary and the changelog. It runs on Cloudflare Workers, which runs code at the network edge, and only for paths under `/api/`. Everything else on kamllistos.com stays static files.
 
 ## Endpoints
 
-Base URL: `https://camtoan.me`
+Base URL: `https://kamllistos.com`
 
 | Method | Path | Returns |
 | --- | --- | --- |
@@ -24,7 +24,7 @@ Base URL: `https://camtoan.me`
 Try it from a terminal:
 
 ```bash
-curl https://camtoan.me/api/glossary?q=phishing
+curl https://kamllistos.com/api/glossary?q=phishing
 ```
 
 ## Postman

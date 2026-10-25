@@ -18,7 +18,7 @@ const keep = (msg: string) => msg && !/^Merge (branch|pull request)/.test(msg);
 
 async function fromGitHub(): Promise<Change[]> {
   const res = await fetch(`https://api.github.com/repos/${REPO}/commits?sha=main&per_page=100`, {
-    headers: { Accept: "application/vnd.github+json", "User-Agent": "camtoan.me-build" },
+    headers: { Accept: "application/vnd.github+json", "User-Agent": "kamllistos-build" },
     signal: AbortSignal.timeout(10_000),
   });
   if (!res.ok) throw new Error(`GitHub API HTTP ${res.status}`);

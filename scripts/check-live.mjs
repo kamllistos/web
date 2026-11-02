@@ -92,14 +92,13 @@ await check("TLS certificate valid for 14+ days", () =>
   }),
 );
 
-// camtoan.me is the owner's personal domain: it redirects here for now, and keeps the email + status page.
+// camtoan.me is the owner's personal site (GitHub Pages), and keeps the email + status page.
 const PERSONAL = "camtoan.me";
 if (host === "kamllistos.com") {
-  await check("camtoan.me redirects here", async () => {
+  await check("camtoan.me personal site is up", async () => {
     const res = await get(`https://${PERSONAL}/`);
-    const to = res.headers.get("location") ?? "";
-    if (![301, 302, 307, 308].includes(res.status) || new URL(to, BASE).hostname !== host) throw new Error(`HTTP ${res.status} → ${to || "no redirect"}`);
-    return `${res.status} → ${to}`;
+    if (res.status !== 200) throw new Error(`HTTP ${res.status}`);
+    return "200";
   });
 
   // DNS: email and status-page records on camtoan.me must stay intact.

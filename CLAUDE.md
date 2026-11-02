@@ -5,7 +5,7 @@ Owner has no coding background: explain plainly, keep things simple, be honest.
 
 ## Stack (all free except domain + Proton)
 - Astro static site → Cloudflare Workers static assets (`wrangler.jsonc`), deploys on push to `main`.
-- Domains: **kamllistos.com** = this site (the business). **camtoan.me** = owner's personal domain, reserved for a future personal blog; for now it redirects to kamllistos.com (Cloudflare redirect rule) and keeps email + status page. 
+- Domains: **kamllistos.com** = this site (the business). **camtoan.me** = owner's personal site, hosted on GitHub Pages from camtoan-do/website (not this Worker); also keeps email + status page.
 - Public read-only REST API on `/api/*` (`worker/index.ts`, GET only). Spec `public/openapi.json`; Postman collection `public/postman/` (run hourly via Newman in live checks).
 - DNS: Cloudflare. camtoan.me registered at Namecheap (nameservers seamus/tegan, auto-renew on, expires 2027-07-08); kamllistos.com registered at Cloudflare.
 - Email: Proton Mail, official@camtoan.me. MX/SPF/DKIM(3 CNAMEs)/DMARC must stay **DNS only** in Cloudflare.

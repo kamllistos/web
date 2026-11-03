@@ -1,6 +1,5 @@
 ---
 import Base from "../layouts/Base.astro";
-import Shield from "../components/Shield.astro";
 import { site } from "../site";
 ---
 
@@ -9,7 +8,6 @@ import { site } from "../site";
     <p class="eyebrow">Responsible disclosure</p>
     <h1>Found a security issue?</h1>
     <p class="lead">Thank you for looking. If you find a vulnerability on kamllistos.com, please tell me privately so I can fix it.</p>
-    <div class="hero-shield"><Shield pose="lock" size={110} float label="Shield hugging a padlock" /></div>
 
     <h2>How to report</h2>
     <p>Email <a href={`mailto:${site.email}`}>{site.email}</a> with a description of the issue, steps to reproduce it, and its impact.</p>

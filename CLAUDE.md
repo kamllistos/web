@@ -16,13 +16,13 @@ Owner has no coding background: explain plainly, keep things simple, be honest.
 ## Where things live
 - Text: `src/site.ts` · About timeline: `src/timeline.ts` · Posts: `src/content/blog/`
 - Security glossary: data `src/features.ts` → home page + `/glossary/<concept>/` pages (also served by `/api/glossary`)
-- Design: neobrutalism (thick borders, hard shadows, flat bright colors) in `src/styles.css`
+- Design: same language as camtoan.me (mono + heavy sans, hairline borders, grid paper, one orange accent, Auto/Light/Dark toggle via `public/theme.js`) in `src/styles.css`. No mascot.
 - Security headers: `public/_headers` (strict CSP — no inline scripts/styles) · Redirects: `public/_redirects`
 - Checks: `scripts/check-build.mjs` (CI) and `scripts/check-live.mjs` (hourly; site, headers, TLS, email DNS) + Newman API tests
 - Security automation: CodeQL (`.github/workflows/codeql.yml`), Dependabot (`.github/dependabot.yml`)
 - Changelog: generated from Git history (`src/changelog.ts`) → `/changelog`, `/changelog.json`, footer "days since update" (computed in `public/site.js`)
 - Public docs: `src/content/docs/*.md` → `/docs/`; stack list `src/stack.ts` → `/stack/` (statuses must stay honest)
-- Icons: `public/icon.png`, `icon-48.png`, `apple-touch-icon.png` (square K mark)
+- Icons: `public/favicon.svg` + `icon.png`, `icon-48.png`, `apple-touch-icon.png` (light K on dark square, orange corner block)
 
 ## Rules
 - Run `npm run build && npm run check:build` before pushing.

@@ -1,31 +1,37 @@
-/* Neobrutalism: thick borders, hard offset shadows, flat bright colors, chunky type. */
+/* Same design language as camtoan.me: off-white paper, ink, one orange accent, mono body, heavy sans headings.
+   Legacy colour names (--yellow, --blue...) are kept as accent tints so older components still read. */
 :root {
-  --paper: #fffdf5;
-  --surface: #ffffff;
-  --ink: #000000;
-  --muted: #3d3d3d;
-  --border: 3px solid var(--ink);
-  --shadow: 6px 6px 0 var(--ink);
-  --shadow-sm: 4px 4px 0 var(--ink);
-  --yellow: #ffdc58;
-  --blue: #88aaee;
-  --pink: #ffb2ef;
-  --green: #a3e636;
-  --coral: #ff6b6b;
-  --purple: #a388ee;
-  --on-color: #000000;
-  --link: #000000;
+  --bg: #f6f5f2; --ink: #1d1d1d; --muted: #6b6b68; --accent: #ff4a1c;
+  --line: rgba(29, 29, 29, .22); --rule: rgba(29, 29, 29, .08);
+  --sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --paper: var(--bg);
+  --surface: var(--bg);
+  --border: 1px solid var(--line);
+  --shadow: none;
+  --shadow-sm: none;
+  --yellow: color-mix(in srgb, var(--accent) 16%, var(--bg));
+  --coral: color-mix(in srgb, var(--accent) 30%, var(--bg));
+  --pink: color-mix(in srgb, var(--accent) 10%, var(--bg));
+  --blue: color-mix(in srgb, var(--ink) 6%, var(--bg));
+  --purple: color-mix(in srgb, var(--ink) 10%, var(--bg));
+  --green: color-mix(in srgb, #2f9e44 22%, var(--bg));
+  --on-color: var(--ink);
+  --link: inherit;
   color-scheme: light dark;
 }
 @media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #121212;
-    --surface: #1e1e1e;
-    --ink: #f5f0e6;
-    --muted: #c9c4ba;
-    --link: #f5f0e6;
+  :root:not([data-theme="light"]) {
+    --bg: #121211; --ink: #ecebe7; --muted: #9a9995; --accent: #ff5a2e;
+    --line: rgba(236, 235, 231, .22); --rule: rgba(236, 235, 231, .07);
   }
 }
+:root[data-theme="dark"] {
+  --bg: #121211; --ink: #ecebe7; --muted: #9a9995; --accent: #ff5a2e;
+  --line: rgba(236, 235, 231, .22); --rule: rgba(236, 235, 231, .07);
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 72px; }
@@ -361,7 +367,6 @@ kbd { border: 2px solid var(--ink); padding: 0 6px; font-size: 13px; background:
 .cp-nav-name { font-size: 15px; }
 
 /* Services: packages, pricing tiers, sample report. */
-.hero-shield { margin-top: 1.5rem; display: flex; justify-content: center; }
 .package { max-width: 1080px; margin: 0 auto; }
 .pkg-tagline { margin: 0.25rem 0 1rem; }
 .pkg-for { color: var(--muted); margin: 0 0 1.5rem; }
@@ -398,19 +403,6 @@ kbd { border: 2px solid var(--ink); padding: 0 6px; font-size: 13px; background:
 .not-list { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; padding: 0; margin: 1.5rem 0 0; }
 .not-list li { font-weight: 800; padding: 8px 14px; border: 2px solid currentColor; opacity: 0.85; text-decoration: line-through; }
 
-/* Footer mascot: a little shield whose eyes follow the cursor (site.js). */
-.footer-line { display: inline-flex; align-items: center; gap: 10px; }
-.mascot { vertical-align: middle; overflow: visible; }
-.mascot-body { fill: var(--yellow); stroke: #000; stroke-width: 3; stroke-linejoin: round; }
-.mascot-eye { fill: #fff; stroke: #000; stroke-width: 1.5; transform-box: fill-box; transform-origin: center; transition: transform 0.12s ease; }
-.mascot-pupil { fill: #000; }
-.mascot-smile { fill: none; stroke: #000; stroke-width: 2.5; stroke-linecap: round; }
-.mascot.blink .mascot-eye { transform: scaleY(0.12); }
-.mascot-foot { fill: var(--coral); stroke: #000; stroke-width: 2; }
-.mascot-arm { fill: none; stroke: #000; stroke-width: 3; stroke-linecap: round; }
-.mascot-sheen { fill: #fff; opacity: 0.22; }
-.mascot-emblem { fill: #000; }
-.mascot-brow { fill: none; stroke: #000; stroke-width: 2.4; stroke-linecap: round; }
 .footer-sep { opacity: 0.5; margin: 0 4px; }
 
 /* Nav: Products item with icon + "soon" badge. */
@@ -482,3 +474,116 @@ footer .updated { display: inline-block; line-height: 1.4; padding: 2px 10px; fo
 .small { color: var(--ink); font-weight: 600; font-size: 15px; }
 .band-gray .small, .band-dark .small, .band-gray .small a, .band-dark .small a { color: var(--on-color); }
 .band-gray :is(.ctas, .center, .lead, .body-lg) > a:not(.pill), .band-dark :is(.ctas, .center, .lead, .body-lg) > a:not(.pill) { color: var(--on-color); }
+
+/* ---- camtoan.me layer: flat, sharp, hairline borders, grid paper, one accent. ---- */
+*, *::before, *::after { box-shadow: none !important; }
+body { font: 15px/1.6 var(--mono); background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
+::selection { background: var(--accent); color: #fff; }
+a { text-decoration-thickness: 1px; }
+a:hover { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+h1, h2, h3 { font-family: var(--sans); }
+h1 { font: 800 clamp(2.6rem, 6.2vw, 6rem)/.95 var(--sans); letter-spacing: -.045em; }
+h2 { font: 750 clamp(2rem, 3.6vw, 3.4rem)/1 var(--sans); letter-spacing: -.035em; }
+h3 { font-weight: 750; letter-spacing: -.02em; }
+.lead, .body-lg, .prose p, .prose li, .tile p, .step p, .cert-name, .concept-desc, .product-card p, .stack-card p, .deliver li, .tl-item details p, .fc-body > p {
+  font-family: var(--sans); color: var(--muted);
+}
+.lead { font-weight: 400; }
+.eyebrow, .tile .eyebrow {
+  display: block; padding: 0; background: none; border: 0; color: var(--accent);
+  font: 400 12px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase;
+}
+.small { color: var(--muted); font-weight: 400; font-size: 13px; }
+
+/* Buttons: ink outline, filled on primary, accent on hover. */
+.pill {
+  padding: 10px 16px; font: 13px var(--mono); font-weight: 400;
+  background: var(--ink); color: var(--bg); border: 1px solid var(--ink);
+  transition: background .15s, border-color .15s, color .15s;
+}
+.pill:hover { transform: none; background: var(--accent); border-color: var(--accent); color: #fff; }
+.pill:active { transform: none; }
+.tier.featured .pill { background: var(--ink); }
+.more { font-weight: 400; color: var(--ink); }
+.chip { font: 13px var(--mono); border: 1px solid var(--line); transition: border-color .15s; }
+.chip:hover { transform: none; border-color: var(--ink); }
+.chip[aria-pressed="true"] { transform: none; background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+/* Nav: translucent bar with a hairline, like camtoan.me's header. */
+.nav { background: color-mix(in srgb, var(--bg) 88%, transparent); border-bottom: 1px solid var(--rule); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.nav a { color: var(--ink); font-weight: 400; font-size: 13px; }
+.nav a:hover { color: var(--accent); text-decoration: none; }
+.nav-brand { padding: 0; background: none; border: 0; font: 700 14px var(--mono); letter-spacing: -.01em; }
+.nav-brand::before { content: ""; display: inline-block; width: 9px; height: 9px; margin-right: 8px; background: var(--accent); }
+.nav-links { align-items: center; gap: 1.4rem; }
+.nav-badge { font: 10px var(--mono); background: none; color: var(--accent); border: 1px solid var(--accent); padding: 0 4px; }
+.theme { display: flex; border: 1px solid var(--ink); }
+.theme button { font: 12px var(--mono); padding: 4px 8px; background: none; color: var(--ink); border: 0; cursor: pointer; }
+.theme button + button { border-left: 1px solid var(--ink); }
+.theme button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.nav-end { display: flex; align-items: center; gap: 1.4rem; }
+
+/* Sections: left-aligned on grid paper; bands are separated by hairlines, not colour. */
+.hero {
+  text-align: left; max-width: 1080px; margin: 0 auto; padding: 120px 1rem 96px;
+  background-image: linear-gradient(var(--rule) 1px, transparent 1px), linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.hero .lead { margin-left: 0; }
+.hero .ctas { justify-content: flex-start; }
+.band, .band-gray, .band-dark, .stats-band { background: transparent; color: var(--ink); border-top: 1px solid var(--rule); }
+.band-dark .eyebrow { color: var(--accent); }
+.marquee { background: transparent; border-bottom: 1px solid var(--rule); }
+.marquee-item { font: 12px var(--mono); border: 1px solid var(--line); }
+.marquee-item:hover { background: none; color: var(--accent); border-color: var(--accent); }
+
+/* Cards: hairline boxes; hover turns the border accent. No lift, no float. */
+.tile, .cert, .step, .stat, .tl-item details, .feature-card, .concept, .cp-related-link, .product-card, .stack-card, .cl-day, .tier, .deliver, .cat-field, .cp-card, .sample, .search, .combo-list, .construction-banner {
+  background: var(--bg); border: 1px solid var(--line);
+}
+.tile:hover, a.cert:hover, a.stat:hover, .feature-card:hover, .concept:hover, .concept:focus-visible, .cp-related-link:hover, a.product-card:hover {
+  transform: none; border-color: var(--accent);
+}
+.concept { animation: none !important; }
+.stat-value { font-family: var(--sans); font-weight: 800; letter-spacing: -.03em; }
+.stat-label, .tl-date, .cert-issuer, .concept-cat, .combo-cat, .sample-kicker { font-family: var(--mono); font-weight: 400; }
+.step-num { background: none; color: var(--accent); border: 1px solid var(--accent); font: 16px var(--mono); }
+.fc-head { background: transparent; border-bottom: 1px solid var(--line); }
+.fc-icon, .cp-icon { background: none; border: 1px solid var(--line); }
+.fc-list li { border: 1px solid var(--rule); }
+.combo-opt { border-bottom: 1px solid var(--rule); }
+.tier.featured { background: var(--bg); border-color: var(--ink); }
+.tier-badge, .product-badge, .status { font: 11px var(--mono); border: 1px solid currentColor; }
+.tier-badge { background: var(--accent); color: #fff; border-color: var(--accent); }
+.status { color: var(--ink); }
+.construction-banner { font-weight: 400; }
+.cb-stripe { background: var(--accent); border: 0; }
+.not-list li { font-weight: 400; border: 1px solid currentColor; }
+
+/* Timeline: hairline spine, square markers. */
+.timeline::before { width: 1px; left: 10px; background: var(--line); }
+.tl-item::before { width: 11px; height: 11px; left: -27px; top: 24px; background: var(--dot, var(--accent)); border: 1px solid var(--ink); }
+
+/* Code and tables */
+.prose code, .cl-day code { background: transparent; color: var(--accent); border: 0; padding: 0; }
+.doc table { border: 1px solid var(--line); }
+.doc th, .doc td { border: 1px solid var(--rule); }
+.doc th { background: transparent; color: var(--ink); font-family: var(--mono); font-weight: 400; text-transform: uppercase; font-size: 12px; letter-spacing: .08em; }
+.doc pre { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.prose hr { border-top: 1px solid var(--rule); }
+kbd { border: 1px solid var(--line); font-family: var(--mono); }
+
+/* Footer: quiet, small, separated by a hairline. */
+footer { background: transparent; color: var(--muted); border-top: 1px solid var(--rule); font: 12px var(--mono); padding: 2rem 1rem; }
+footer a { color: var(--muted); }
+footer a:hover { color: var(--accent); }
+footer .updated { background: none; color: var(--accent); border: 1px solid var(--accent); font-weight: 400; }
+.updated-big .updated { background: none; color: var(--accent); border: 1px solid var(--accent); font-weight: 400; }
+
+@media (max-width: 600px) {
+  .hero { padding: 72px 1rem 64px; }
+  .nav-end { flex-wrap: wrap; gap: 6px; width: 100%; }
+  .nav-links { width: 100%; gap: .4rem .9rem; font-size: 13px; }
+}

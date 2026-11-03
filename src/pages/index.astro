@@ -1,6 +1,5 @@
 ---
 import Base from "../layouts/Base.astro";
-import Shield from "../components/Shield.astro";
 import { site } from "../site";
 import { categories, concepts } from "../features";
 
@@ -24,7 +23,6 @@ const marquee = [...concepts].sort(() => Math.random() - 0.5);
     <p class="eyebrow">feature-lookup · interactive glossary</p>
     <h1><span>Name that</span><span>security thing.</span></h1>
     <p class="lead">Every security term, explained in plain English. Pick an area, search for anything you've heard of, or just start clicking.</p>
-    <div class="hero-shield"><Shield pose="lookup" size={120} float label="Shield with a magnifying glass" /></div>
   </section>
 
   <section class="band band-gray">
@@ -82,7 +80,6 @@ const marquee = [...concepts].sort(() => Math.random() - 0.5);
       ))}
     </div>
     <div id="no-results" class="no-results" hidden>
-      <Shield pose="shrug" size={84} label="Shield shrugging" />
       <p>No matches. Try a simpler word, or <a href={`mailto:${site.email}`}>ask me</a>.</p>
     </div>
   </section>

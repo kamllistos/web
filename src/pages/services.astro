@@ -1,6 +1,5 @@
 ---
 import Base from "../layouts/Base.astro";
-import Shield from "../components/Shield.astro";
 import { site } from "../site";
 import { getAllPosts, formatDate } from "../posts";
 import "../demos.css";
@@ -15,7 +14,6 @@ const docs = site.packages.find((p) => p.id === "it-documentation");
     <p class="eyebrow">{site.role}</p>
     <h1>What I can do<span>for you.</span></h1>
     <p class="lead">{site.tagline}</p>
-    <div class="hero-shield"><Shield pose="work" size={120} float label="Shield in a hard hat, ready to work" /></div>
   </section>
 
   <section class="band">

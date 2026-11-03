@@ -17,6 +17,7 @@ const { title = site.name } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={site.tagline} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/icon-48.png" type="image/png" sizes="48x48" />
     <link rel="icon" href="/icon.png" type="image/png" sizes="512x512" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -26,12 +27,15 @@ const { title = site.name } = Astro.props;
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <title>{title}</title>
+    <meta name="color-scheme" content="light dark" />
+    <script is:inline src="/theme.js"></script>
   </head>
   <body>
     <nav class="nav">
       <div class="nav-inner">
         <a class="nav-brand" href="/">{site.brand.name}</a>
-        <div class="nav-links">
+        <div class="nav-end">
+          <div class="nav-links">
           <a href="/">Home</a>
           <a class="nav-prod" href="/products/">
             <svg class="nav-ico" width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L21 7 V17 L12 22 L3 17 V7 Z M3 7 L12 12 L21 7 M12 12 V22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"></path></svg>
@@ -41,6 +45,12 @@ const { title = site.name } = Astro.props;
           <a href="/services/">Services</a>
           <a href="/about/">About</a>
           <a href="/about/#contact">Contact</a>
+          </div>
+          <div class="theme" role="group" aria-label="Colour theme">
+            <button type="button" data-theme-set="system" aria-pressed="true">Auto</button>
+            <button type="button" data-theme-set="light" aria-pressed="false">Light</button>
+            <button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+          </div>
         </div>
       </div>
     </nav>
@@ -48,26 +58,7 @@ const { title = site.name } = Astro.props;
       <slot />
     </main>
     <footer>
-      <span class="footer-line">
-        <svg id="mascot" class="mascot" viewBox="0 0 48 56" width="36" height="42" role="img" aria-label={`${site.brand.name} shield mascot`}>
-          <ellipse class="mascot-foot" cx="19" cy="52" rx="4" ry="2.6"></ellipse>
-          <ellipse class="mascot-foot" cx="29" cy="52" rx="4" ry="2.6"></ellipse>
-          <path class="mascot-arm" d="M7 30 q-4 3 -2 8"></path>
-          <path class="mascot-arm" d="M41 30 q4 3 2 8"></path>
-          <path class="mascot-body" d="M24 3 L43 10 V27 C43 40 35 47 24 51 C13 47 5 40 5 27 V10 Z"></path>
-          <path class="mascot-sheen" d="M24 6 L15 9 V24 C15 32 19 37 24 40 Z"></path>
-          <circle class="mascot-emblem" cx="24" cy="31" r="2"></circle>
-          <path class="mascot-emblem" d="M24 32 l-1.7 4.2 h3.4 Z"></path>
-          <path class="mascot-brow" d="M13 15 l7 2.2"></path>
-          <path class="mascot-brow" d="M35 15 l-7 2.2"></path>
-          <circle class="mascot-eye" cx="18" cy="23" r="5"></circle>
-          <circle class="mascot-eye" cx="30" cy="23" r="5"></circle>
-          <circle class="mascot-pupil" cx="18" cy="23" r="2.2" data-cx="18" data-cy="23"></circle>
-          <circle class="mascot-pupil" cx="30" cy="23" r="2.2" data-cx="30" data-cy="23"></circle>
-          <path class="mascot-smile" d="M18 34 Q24 39 30 34"></path>
-        </svg>
-        <span>{site.brand.name} <span class="footer-sep">·</span> © {new Date().getFullYear()} {site.name}. All rights reserved.</span>
-      </span>
+      <span>{site.brand.name} <span class="footer-sep">·</span> © {new Date().getFullYear()} {site.name}. All rights reserved.</span>
       <span class="footer-links">
         {latest && <a class="updated" href="/changelog/" data-updated={latest.date}>Last update: {new Date(latest.date).toLocaleDateString("en-US", { dateStyle: "medium", timeZone: "America/Edmonton" })}</a>}
         <a href="/stack/">Stack</a>

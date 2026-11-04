@@ -1,98 +1,125 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { site } from "../../site";
-import { concepts } from "../../features";
-import type { ConceptEntry } from "../../features";
-import { featureAnims } from "../../animations";
-import "../../animations.css";
+import { entries, bySlug, catById, priorityLabel } from "../../db";
+import type { Entry } from "../../db";
 
 export function getStaticPaths() {
-  return concepts.map((c) => ({
-    params: { slug: c.path },
-    props: { concept: c },
-  }));
+  return entries.map((e) => ({ params: { slug: e.slug }, props: { e } }));
 }
 
 interface Props {
-  concept: ConceptEntry;
+  e: Entry;
 }
-const { concept } = Astro.props;
-const { name, desc, cat } = concept;
-const anim = featureAnims[concept.path];
-
-// Siblings in the same area, plus prev/next across the whole glossary.
-const related = concepts.filter((c) => c.cat.id === cat.id && c.path !== concept.path);
-const i = concepts.findIndex((c) => c.path === concept.path);
-const prev = concepts[(i - 1 + concepts.length) % concepts.length];
-const next = concepts[(i + 1) % concepts.length];
+const { e } = Astro.props;
+const cat = catById.get(e.category)!;
+const cweId = e.cwe?.replace("CWE-", "");
+const related = e.seeAlso.map((s) => bySlug.get(s)).filter((r): r is Entry => !!r);
+const i = entries.findIndex((x) => x.slug === e.slug);
+const prev = entries[(i - 1 + entries.length) % entries.length];
+const next = entries[(i + 1) % entries.length];
 ---
 
-<Base title={`${name} — Security glossary — ${site.name}`}>
-  <article class="concept-page">
-    <p class="crumbs">
-      <a href="/">Glossary</a> <span aria-hidden="true">/</span>
-      <a href={`/?area=${cat.id}`}>{cat.icon} {cat.short}</a>
-    </p>
-
-    <header class="cp-head stagger">
-      <span class="cp-icon" aria-hidden="true">{cat.icon}</span>
-      <p class="eyebrow">{cat.name}</p>
-      <h1>{name}</h1>
-      <p class="lead">{desc}</p>
+<Base title={`${e.name} — Security feature database — ${site.name}`}>
+  <article class="entry">
+    <header class="entry-head hero">
+      <div class="entry-inner stagger">
+        <p class="crumbs">
+          <a href="/">Database</a> <span aria-hidden="true">/</span>
+          <a href={`/?area=${cat.id}`}>{cat.name}</a>
+        </p>
+        <p class="entry-badges">
+          <span class={`db-pri pri-${e.priority}`}>{priorityLabel[e.priority]}</span>
+          {e.cwe && <a class="entry-cwe" href={`https://cwe.mitre.org/data/definitions/${cweId}.html`} rel="noopener">{e.cwe}</a>}
+        </p>
+        <h1>{e.name}</h1>
+        <p class="entry-aka">Also called: {e.aliases.join(" · ")}</p>
+        <p class="lead">{e.oneLiner}</p>
+        <p class="entry-stops"><span>Stops</span> {e.stops}</p>
+      </div>
     </header>
 
-    {anim && (
-      <section class="band">
-        <div class="narrow">
-          <div class="feat-anim" data-anim={anim.kind} aria-label={`${name} animation`}></div>
-          {anim.caption && <p class="feat-cap">{anim.caption}</p>}
-        </div>
+    <div class="entry-body">
+      <section class="entry-sec reveal">
+        <h2><span class="entry-n">01</span> What it is</h2>
+        <p class="entry-explain">{e.explain}</p>
+        <p class="entry-said-label">If you searched…</p>
+        <p class="entry-said">{e.youCalledIt.map((q) => <a href={`/?q=${encodeURIComponent(q)}`}>“{q}”</a>)}</p>
       </section>
-    )}
 
-    <section class="band">
-      <div class="narrow">
-        <div class="cp-card reveal">
-          <h2>Why this matters</h2>
-          <p class="body-lg">{cat.why}</p>
+      <section class="entry-sec reveal">
+        <h2><span class="entry-n">02</span> Anatomy</h2>
+        <ol class="entry-parts">
+          {e.parts.map((p) => <li><b>{p.name}</b><span>{p.desc}</span></li>)}
+        </ol>
+      </section>
+
+      <section class="entry-sec reveal">
+        <div class="entry-sec-top">
+          <h2><span class="entry-n">03</span> Paste this into your AI agent</h2>
+          <button class="copy-btn" type="button" data-copy="prompt">Copy prompt</button>
         </div>
-        {cat.examples.length > 0 && (
-          <div class="cp-card reveal">
-            <h2>You might see this as</h2>
-            <div class="cp-examples">
-              {cat.examples.map((e) => <span class="cp-example">{e}</span>)}
+        <pre class="entry-prompt" id="prompt">{e.prompt}</pre>
+      </section>
+
+      <section class="entry-sec reveal">
+        <h2><span class="entry-n">04</span> Check it worked</h2>
+        <ul class="entry-verify">
+          {e.verify.map((v) => <li>{v}</li>)}
+        </ul>
+      </section>
+
+      <section class="entry-sec reveal">
+        <h2><span class="entry-n">05</span> In code</h2>
+        {e.inCode.map((c, n) => (
+          <div class="entry-code">
+            <div class="entry-code-top">
+              <span class="entry-stack">{c.stack}</span>
+              <button class="copy-btn" type="button" data-copy={`code-${n}`}>Copy</button>
             </div>
+            <pre><code id={`code-${n}`}>{c.code}</code></pre>
+            {c.note && <p class="entry-note">{c.note}</p>}
           </div>
-        )}
-      </div>
-    </section>
+        ))}
+      </section>
+
+      <section class="entry-sec reveal">
+        <h2><span class="entry-n">06</span> Read more</h2>
+        <ul class="entry-refs">
+          {e.refs.map((r) => <li><a href={r.url} rel="noopener">{r.title} ↗</a></li>)}
+        </ul>
+      </section>
+    </div>
 
     {related.length > 0 && (
-      <section class="band band-gray">
-        <div class="narrow">
-          <h2 class="reveal">More in {cat.short}</h2>
-          <div class="cp-related">
-            {related.map((r) => (
-              <a class="cp-related-link reveal" href={`/glossary/${r.path}/`}>
-                <span class="cp-related-name">{r.name}</span>
-                <span class="cp-related-desc">{r.desc}</span>
+      <section class="band entry-related reveal">
+        <p class="eyebrow">usually goes with</p>
+        <div class="db-grid">
+          {related.map((r) => {
+            const rc = catById.get(r.category)!;
+            return (
+              <a class="db-card" href={`/glossary/${r.slug}/`}>
+                <span class="db-spec" aria-hidden="true"><s>{rc.bad}</s><b>{rc.fix}</b></span>
+                <span class="db-meta"><span class="db-cat">{rc.short}</span><span class={`db-pri pri-${r.priority}`}>{priorityLabel[r.priority]}</span></span>
+                <span class="db-name">{r.name}</span>
+                <span class="db-one">{r.oneLiner}</span>
               </a>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </section>
     )}
 
-    <nav class="cp-nav band" aria-label="Browse concepts">
-      <a class="cp-prev" href={`/glossary/${prev.path}/`}><span class="cp-dir">← Previous</span><span class="cp-nav-name">{prev.name}</span></a>
-      <a class="pill" href="/">All concepts</a>
-      <a class="cp-next" href={`/glossary/${next.path}/`}><span class="cp-dir">Next →</span><span class="cp-nav-name">{next.name}</span></a>
+    <nav class="cp-nav band" aria-label="Browse the database">
+      <a class="cp-prev" href={`/glossary/${prev.slug}/`}><span class="cp-dir">← Previous</span><span class="cp-nav-name">{prev.name}</span></a>
+      <a class="pill" href="/">All features</a>
+      <a class="cp-next" href={`/glossary/${next.slug}/`}><span class="cp-dir">Next →</span><span class="cp-nav-name">{next.name}</span></a>
     </nav>
 
     <section class="band band-gray">
       <div class="narrow center reveal">
-        <h2>Want help with {cat.short.toLowerCase()}?</h2>
-        <p class="body-lg">Tell me what you have and I'll tell you which few things actually matter for you.</p>
+        <h2>Not sure where to start?</h2>
+        <p class="body-lg">Tell me what you're building and I'll tell you which few of these actually matter for you.</p>
         <div class="ctas">
           <a class="pill" href={`mailto:${site.email}`}>Get in touch</a>
           <a class="more" href="/services/">See what I offer</a>
@@ -100,5 +127,4 @@ const next = concepts[(i + 1) % concepts.length];
       </div>
     </section>
   </article>
-  {anim && <script is:inline src="/animations.js" defer></script>}
 </Base>

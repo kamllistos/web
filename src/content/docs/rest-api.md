@@ -7,7 +7,7 @@ updated: 2026-10-17
 
 ## What it is
 
-A **REST API** lets programs ask a website for data over HTTP and get structured answers back (JSON). The Kamllistos API exposes the site's public data: the security glossary and the changelog. It runs on Cloudflare Workers, which runs code at the network edge, and only for paths under `/api/`. Everything else on kamllistos.com stays static files.
+A **REST API** lets programs ask a website for data over HTTP and get structured answers back (JSON). The Kamllistos API exposes the site's public data: the security feature database and the changelog. It runs on Cloudflare Workers, which runs code at the network edge, and only for paths under `/api/`. Everything else on kamllistos.com stays static files.
 
 ## Endpoints
 
@@ -18,13 +18,13 @@ Base URL: `https://kamllistos.com`
 | GET | [`/api`](/api) | List of endpoints |
 | GET | [`/api/health`](/api/health) | Service status and current version |
 | GET | [`/api/changelog?limit=20`](/api/changelog?limit=5) | Recent changes; `limit` 1–100 |
-| GET | [`/api/glossary?q=mfa`](/api/glossary?q=mfa) | Glossary search; `q` ≤ 64 characters, optional `category` |
-| GET | [`/api/glossary/categories`](/api/glossary/categories) | Glossary categories |
+| GET | [`/api/glossary?q=mfa`](/api/glossary?q=mfa) | Feature search; `q` ≤ 64 characters, optional `category` |
+| GET | [`/api/glossary/categories`](/api/glossary/categories) | Feature categories |
 
 Try it from a terminal:
 
 ```bash
-curl https://kamllistos.com/api/glossary?q=phishing
+curl https://kamllistos.com/api/glossary?q=sql
 ```
 
 ## Postman

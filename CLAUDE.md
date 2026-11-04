@@ -14,8 +14,8 @@ Owner has no coding background: explain plainly, keep things simple, be honest.
 - Netlify: old host, kept briefly as fallback; to be deleted.
 
 ## Where things live
-- Text: `src/site.ts` · About timeline: `src/timeline.ts` · Posts: `src/content/blog/`
-- Security glossary: data `src/features.ts` → home page + `/glossary/<concept>/` pages (also served by `/api/glossary`)
+- Text: `src/site.ts` · About lives on camtoan.me (`/about` redirects there) · Posts: `src/content/blog/`
+- Security feature database: data `src/db.json` (typed in `src/db.ts`) → home page search + `/glossary/<slug>/` pages (also served by `/api/glossary`)
 - Design: same language as camtoan.me (mono + heavy sans, hairline borders, grid paper, one orange accent, Auto/Light/Dark toggle via `public/theme.js`) in `src/styles.css`. No mascot.
 - Security headers: `public/_headers` (strict CSP — no inline scripts/styles) · Redirects: `public/_redirects`
 - Checks: `scripts/check-build.mjs` (CI) and `scripts/check-live.mjs` (hourly; site, headers, TLS, email DNS) + Newman API tests

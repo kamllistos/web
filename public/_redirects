@@ -1,5 +1,7 @@
 # Old URLs that moved.
-/certifications   /about/#certifications   301
-/certifications/  /about/#certifications   301
+/about            https://camtoan.me       301
+/about/           https://camtoan.me       301
+/certifications   https://camtoan.me       301
+/certifications/  https://camtoan.me       301
 /features         /                        301
 /features/        /                        301

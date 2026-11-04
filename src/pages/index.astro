@@ -1,88 +1,101 @@
 ---
 import Base from "../layouts/Base.astro";
 import { site } from "../site";
-import { categories, concepts } from "../features";
+import { entries, categories, catById, priorityLabel } from "../db";
 
-// Shuffle a copy for the marquee so the scroll order varies per build.
-const marquee = [...concepts].sort(() => Math.random() - 0.5);
+const lc = (a: string[]) => a.join(" ").toLowerCase();
+const musts = entries.filter((e) => e.priority === "must").length;
+
+// Marquee + typewriter: the sloppy ways people actually describe these features.
+const said = entries.flatMap((e) => e.youCalledIt.slice(0, 2).map((q) => ({ q, slug: e.slug })));
+const marquee = said.sort((a, b) => a.q.length - b.q.length).filter((_, i) => i % 2 === 0);
+const hints = ["stop people guessing passwords", "my api key is in the frontend", "someone could read other users' orders", "sql injection", "too many signup bots"];
 ---
 
-<Base title={`Feature lookup — ${site.name}`}>
-  <div class="marquee" aria-label="Security concepts">
+<Base title={`Security feature database — ${site.name}`}>
+  <section class="hero db-hero">
+    <div class="db-hero-inner stagger">
+      <p class="eyebrow">security feature database · {entries.length} entries</p>
+      <h1>What security feature does my app need?</h1>
+      <p class="lead">Describe it in your own words. Each entry has the proper name, what it stops, a prompt for your AI agent and code you can copy.</p>
+      <div class="db-search-wrap">
+        <label for="db-search" class="sr-only">Search the security feature database</label>
+        <svg class="db-search-ico" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.4"></circle><path d="M15.5 15.5 L21 21" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"></path></svg>
+        <input id="db-search" class="db-search" type="search" placeholder="stop people guessing passwords" autocomplete="off" spellcheck="false" data-hints={hints.join("|")} />
+        <span class="db-keys" aria-hidden="true"><kbd>/</kbd></span>
+      </div>
+      <p class="db-tip">Try “<a href="/?q=login+brute+force" data-q="login brute force">login brute force</a>”, “<a href="/?q=file+upload" data-q="file upload">file upload</a>” or “<a href="/?q=secrets+in+git" data-q="secrets in git">secrets in git</a>”.</p>
+    </div>
+  </section>
+
+  <div class="marquee db-marquee" aria-label="Things people search for">
     <div class="marquee-track">
-      {marquee.map((c) => (
-        <a class="marquee-item" href={`/glossary/${c.path}/`}>{c.cat.icon} {c.name}</a>
-      ))}
-      {marquee.map((c) => (
-        <a class="marquee-item" href={`/glossary/${c.path}/`} aria-hidden="true" tabindex="-1">{c.cat.icon} {c.name}</a>
-      ))}
+      {marquee.map((m) => <a class="marquee-item" href={`/?q=${encodeURIComponent(m.q)}`} data-q={m.q}>“{m.q}”</a>)}
+      {marquee.map((m) => <a class="marquee-item" href={`/?q=${encodeURIComponent(m.q)}`} data-q={m.q} aria-hidden="true" tabindex="-1">“{m.q}”</a>)}
     </div>
   </div>
 
-  <section class="hero stagger">
-    <p class="eyebrow">feature-lookup · interactive glossary</p>
-    <h1><span>Name that</span><span>security thing.</span></h1>
-    <p class="lead">Every security term, explained in plain English. Pick an area, search for anything you've heard of, or just start clicking.</p>
-  </section>
-
-  <section class="band band-gray">
-    <div class="search-wrap">
-      <label for="feature-search" class="sr-only">Search security concepts</label>
-      <div class="combobox">
-        <input
-          id="feature-search"
-          class="search"
-          type="text"
-          role="combobox"
-          placeholder="Search: MFA, phishing, backups, SIEM…"
-          autocomplete="off"
-          spellcheck="false"
-          aria-autocomplete="list"
-          aria-expanded="false"
-          aria-controls="search-listbox"
-        />
-        <ul id="search-listbox" class="combo-list" role="listbox" aria-label="Matching concepts" hidden></ul>
+  <section class="band db-band">
+    <div class="db-bar">
+      <div class="chips db-chips" role="group" aria-label="Filter by area">
+        <button class="chip" type="button" data-area="all" aria-pressed="true">All <span class="chip-n">{entries.length}</span></button>
+        <button class="chip chip-must" type="button" data-area="must" aria-pressed="false">Must-haves <span class="chip-n">{musts}</span></button>
+        {categories.map((c) => <button class="chip" type="button" data-area={c.id} aria-pressed="false" title={c.tagline}>{c.short} <span class="chip-n">{c.count}</span></button>)}
       </div>
-      <p id="search-meta" class="search-meta center" aria-live="polite">Press <kbd>/</kbd> to search · <kbd>↑</kbd><kbd>↓</kbd> to pick · <kbd>Enter</kbd> to open</p>
+      <div class="db-tools">
+        <p id="db-count" class="db-count" aria-live="polite">{entries.length} features</p>
+        <div class="db-sort" role="group" aria-label="Sort">
+          <button type="button" data-sort="priority" aria-pressed="true">Priority</button>
+          <button type="button" data-sort="az" aria-pressed="false">A–Z</button>
+        </div>
+        <button id="db-surprise" class="db-surprise" type="button">Surprise me ↯</button>
+      </div>
     </div>
-    <div class="chips" role="group" aria-label="Choose an area">
-      <button class="chip" type="button" data-filter="all" aria-pressed="true">All</button>
-      {categories.map((c) => <button class="chip" type="button" data-filter={c.id} aria-pressed="false">{c.icon} {c.short}</button>)}
+
+    <div id="db-grid" class="db-grid">
+      {entries.map((e) => {
+        const cat = catById.get(e.category)!;
+        return (
+          <a
+            class="db-card"
+            href={`/glossary/${e.slug}/`}
+            data-cat={e.category}
+            data-pri={e.priority}
+            data-name={e.name.toLowerCase()}
+            data-alias={lc(e.aliases)}
+            data-stops={e.stops.toLowerCase()}
+            data-said={lc(e.youCalledIt)}
+            data-rest={`${e.oneLiner} ${e.cwe ?? ""} ${cat.name}`.toLowerCase()}
+          >
+            <span class="db-spec" aria-hidden="true"><s>{cat.bad}</s><b>{cat.fix}</b></span>
+            <span class="db-meta"><span class="db-cat">{cat.short}</span><span class={`db-pri pri-${e.priority}`}>{priorityLabel[e.priority]}</span></span>
+            <span class="db-name">{e.name}</span>
+            <span class="db-one">{e.oneLiner}</span>
+            <span class="db-stops">Stops: {e.stops}</span>
+          </a>
+        );
+      })}
+    </div>
+
+    <div id="db-empty" class="db-empty" hidden>
+      <p class="db-empty-big">Nothing matched.</p>
+      <p>Try fewer or plainer words (“login”, “upload”, “api key”), <button id="db-reset" class="linkish" type="button">clear the search</button>, or <a href={`mailto:${site.email}?subject=Missing%20from%20the%20database`}>tell me what's missing</a>.</p>
     </div>
   </section>
 
-  <section id="results" class="band">
-    {categories.map((c) => (
-      <header class="cat-field" data-category={c.id} hidden>
-        <span class="cat-icon" aria-hidden="true">{c.icon}</span>
-        <h2>{c.name}</h2>
-        <p class="cat-tagline">{c.tagline}</p>
-        <p>{c.summary}</p>
-        <p class="cat-why">{c.why}</p>
-        {c.examples.length > 0 && <p class="cat-examples"><b>Examples:</b> {c.examples.join(", ")}</p>}
-      </header>
-    ))}
-
-    <div class="concepts">
-      {concepts.map((c) => (
-        <a
-          class="concept"
-          href={`/glossary/${c.path}/`}
-          data-category={c.cat.id}
-          data-name={c.name.toLowerCase()}
-          data-text={`${c.name} ${c.desc} ${c.cat.name} ${c.cat.short}`.toLowerCase()}
-        >
-          <span class="concept-name">{c.name}</span>
-          <span class="concept-cat">{c.cat.icon} {c.cat.short}</span>
-          <span class="concept-desc">{c.desc}</span>
-          <span class="concept-go" aria-hidden="true">Learn more →</span>
+  <section class="band db-areas reveal">
+    <p class="eyebrow">browse by area</p>
+    <div class="db-area-grid">
+      {categories.map((c, i) => (
+        <a class="db-area" href={`/?area=${c.id}`}>
+          <span class="db-area-n">{String(i + 1).padStart(2, "0")}</span>
+          <span class="db-area-name">{c.name}</span>
+          <span class="db-area-tag">{c.tagline}</span>
+          <span class="db-area-count">{c.count} entries →</span>
         </a>
       ))}
     </div>
-    <div id="no-results" class="no-results" hidden>
-      <p>No matches. Try a simpler word, or <a href={`mailto:${site.email}`}>ask me</a>.</p>
-    </div>
   </section>
 
-  <script is:inline src="/glossary.js" defer></script>
+  <script is:inline src="/search.js" defer></script>
 </Base>

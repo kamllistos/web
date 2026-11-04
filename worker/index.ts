@@ -1,7 +1,7 @@
 // Kamllistos public REST API — runs on Cloudflare Workers for /api/* only.
 // Everything else on kamllistos.com is served as static files.
 // Read-only by design: GET/HEAD/OPTIONS only, no user data, no secrets, strict input validation.
-import { categories, concepts } from "../src/features";
+import { entries, categories, searchText } from "../src/db";
 
 interface Env {
   ASSETS: { fetch(req: Request | string): Promise<Response> };
@@ -47,8 +47,8 @@ async function readChangelog(env: Env, origin: string) {
 const ENDPOINTS = [
   { method: "GET", path: "/api/health", description: "Service status and current version." },
   { method: "GET", path: "/api/changelog?limit=20", description: "Recent site changes from Git history (limit 1–100)." },
-  { method: "GET", path: "/api/glossary?q=mfa&category=identity-access", description: "Search the security glossary (q up to 64 chars, both optional)." },
-  { method: "GET", path: "/api/glossary/categories", description: "List glossary categories." },
+  { method: "GET", path: "/api/glossary?q=mfa&category=auth", description: "Search the security feature database (q up to 64 chars, both optional)." },
+  { method: "GET", path: "/api/glossary/categories", description: "List feature categories." },
 ];
 
 async function route(req: Request, env: Env): Promise<Response> {
@@ -75,7 +75,7 @@ async function route(req: Request, env: Env): Promise<Response> {
   if (path === "/api/glossary/categories") {
     return json({
       count: categories.length,
-      categories: categories.map((c) => ({ id: c.id, name: c.name, short: c.short, tagline: c.tagline, features: c.features.length })),
+      categories: categories.map((c) => ({ id: c.id, name: c.name, short: c.short, tagline: c.tagline, features: c.count })),
     });
   }
 
@@ -87,20 +87,19 @@ async function route(req: Request, env: Env): Promise<Response> {
       return error(400, "unknown_category", "Unknown category. See /api/glossary/categories.");
     }
     const terms = q.split(/\s+/).filter(Boolean);
-    const matches = concepts.filter(
-      (c) =>
-        (category === null || c.cat.id === category) &&
-        terms.every((t) => `${c.name} ${c.desc} ${c.cat.name} ${c.cat.short}`.toLowerCase().includes(t)),
+    const matches = entries.filter(
+      (e) => (category === null || e.category === category) && terms.every((t) => searchText(e).includes(t)),
     );
     return json({
       query: q || null,
       category,
       total: matches.length,
-      results: matches.slice(0, MAX_RESULTS).map((c) => ({
-        name: c.name,
-        description: c.desc,
-        category: c.cat.id,
-        url: `${SITE}/glossary/${c.path}/`,
+      results: matches.slice(0, MAX_RESULTS).map((e) => ({
+        name: e.name,
+        description: e.oneLiner,
+        category: e.category,
+        priority: e.priority,
+        url: `${SITE}/glossary/${e.slug}/`,
       })),
     });
   }

@@ -147,7 +147,7 @@
     },
     "/api/glossary": {
       "get": {
-        "summary": "Search the security glossary",
+        "summary": "Search the security feature database",
         "parameters": [
           {
             "name": "q",
@@ -161,7 +161,19 @@
             "name": "category",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "enum": [
+                "injection",
+                "xss",
+                "auth",
+                "access",
+                "headers",
+                "data",
+                "input",
+                "abuse",
+                "supply",
+                "ops"
+              ]
             }
           }
         ],
@@ -205,6 +217,14 @@
                           },
                           "url": {
                             "type": "string"
+                          },
+                          "priority": {
+                            "type": "string",
+                            "enum": [
+                              "must",
+                              "should",
+                              "nice"
+                            ]
                           }
                         }
                       }
@@ -246,7 +266,7 @@
     },
     "/api/glossary/categories": {
       "get": {
-        "summary": "List glossary categories",
+        "summary": "List feature categories",
         "responses": {
           "200": {
             "description": "OK"

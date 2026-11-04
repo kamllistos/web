@@ -22,7 +22,7 @@ Owner has no coding background: explain plainly, keep things simple, be honest.
 - Security automation: CodeQL (`.github/workflows/codeql.yml`), Dependabot (`.github/dependabot.yml`)
 - Changelog: generated from Git history (`src/changelog.ts`) → `/changelog`, `/changelog.json`, footer "days since update" (computed in `public/site.js`)
 - Public docs: `src/content/docs/*.md` → `/docs/`; stack list `src/stack.ts` → `/stack/` (statuses must stay honest)
-- Icons: `public/favicon.svg` + `icon.png`, `icon-48.png`, `apple-touch-icon.png` (light K on dark square, orange corner block)
+- Icons: `public/favicon.svg` + `icon.png`, `icon-48.png`, `apple-touch-icon.png` (orange K on dark square, light corner block — same colors as camtoan.me)
 
 ## Rules
 - Run `npm run build && npm run check:build` before pushing.

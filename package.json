@@ -11,5 +11,8 @@
   },
   "dependencies": {
     "astro": "^7.4.0"
+  },
+  "allowScripts": {
+    "fsevents@2.3.3": true
   }
 }

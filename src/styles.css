@@ -271,9 +271,6 @@ kbd { border: 2px solid var(--ink); padding: 0 6px; font-size: 13px; background:
 
 .footer-sep { opacity: 0.5; margin: 0 4px; }
 
-/* Nav: Products item with icon. */
-.nav-prod { display: inline-flex; align-items: center; gap: 5px; }
-.nav-ico { flex: none; }
 
 /* Products page: product cards. */
 .products { max-width: 1080px; margin: 0 auto; display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }

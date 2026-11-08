@@ -271,25 +271,18 @@ kbd { border: 2px solid var(--ink); padding: 0 6px; font-size: 13px; background:
 
 .footer-sep { opacity: 0.5; margin: 0 4px; }
 
-/* Nav: Products item with icon + "soon" badge. */
+/* Nav: Products item with icon. */
 .nav-prod { display: inline-flex; align-items: center; gap: 5px; }
 .nav-ico { flex: none; }
-.nav-badge { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; background: var(--coral); color: var(--on-color); border: 2px solid var(--ink); padding: 0 5px; }
 
-/* Products page: under-construction banner + product cards. */
-.construction-banner { max-width: 760px; margin: 0 auto 2.5rem; display: flex; align-items: center; gap: 14px; background: var(--yellow); color: var(--on-color); border: var(--border); box-shadow: var(--shadow); padding: 14px 18px; font-weight: 800; }
-.construction-banner p { margin: 0; text-align: center; flex: 1; }
-.cb-stripe { flex: none; width: 36px; height: 20px; background: repeating-linear-gradient(45deg, #000 0 6px, var(--yellow) 6px 12px); border: 2px solid #000; }
+/* Products page: product cards. */
 .products { max-width: 1080px; margin: 0 auto; display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
 .product-card { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 24px; background: var(--surface); color: var(--ink); border: var(--border); box-shadow: var(--shadow); }
 .product-card p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.5; }
 a.product-card { text-decoration: none; transition: transform 0.14s ease, box-shadow 0.14s ease; }
 a.product-card:hover { transform: translate(-3px, -3px); box-shadow: 9px 9px 0 var(--ink); }
-.product-card.soon { background: repeating-linear-gradient(135deg, var(--surface) 0 18px, var(--paper) 18px 20px); }
 .product-badge { align-self: flex-start; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; padding: 3px 10px; border: 2px solid var(--ink); }
 .product-badge.live { background: var(--green); color: var(--on-color); }
-.product-badge.soon { background: var(--surface); color: var(--ink); }
-.product-soon-note { margin-top: auto; font-weight: 800; font-size: 13px; color: var(--muted); }
 
 /* Footer links + "days since last update" badge */
 .footer-links { display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem 1.1rem; margin-top: 0.6rem; }
@@ -384,7 +377,6 @@ h3 { font-weight: 750; letter-spacing: -.02em; }
 .nav-brand { padding: 0; background: none; border: 0; font: 700 14px var(--mono); letter-spacing: -.01em; }
 .nav-brand::before { content: ""; display: inline-block; width: 9px; height: 9px; margin-right: 8px; background: var(--accent); }
 .nav-links { align-items: center; gap: 1.4rem; }
-.nav-badge { font: 10px var(--mono); background: none; color: var(--accent); border: 1px solid var(--accent); padding: 0 4px; }
 .theme { display: flex; border: 1px solid var(--ink); }
 .theme button { font: 12px var(--mono); padding: 4px 8px; background: none; color: var(--ink); border: 0; cursor: pointer; }
 .theme button + button { border-left: 1px solid var(--ink); }
@@ -406,7 +398,7 @@ h3 { font-weight: 750; letter-spacing: -.02em; }
 .marquee-item:hover { background: none; color: var(--accent); border-color: var(--accent); }
 
 /* Cards: hairline boxes; hover turns the border accent. No lift, no float. */
-.tile, .cert, .step, .stat, .product-card, .stack-card, .cl-day, .tier, .deliver, .sample, .construction-banner {
+.tile, .cert, .step, .stat, .product-card, .stack-card, .cl-day, .tier, .deliver, .sample {
   background: var(--bg); border: 1px solid var(--line);
 }
 .tile:hover, a.cert:hover, a.stat:hover, a.product-card:hover {
@@ -419,8 +411,6 @@ h3 { font-weight: 750; letter-spacing: -.02em; }
 .tier-badge, .product-badge, .status { font: 11px var(--mono); border: 1px solid currentColor; }
 .tier-badge { background: var(--accent); color: #fff; border-color: var(--accent); }
 .status { color: var(--ink); }
-.construction-banner { font-weight: 400; }
-.cb-stripe { background: var(--accent); border: 0; }
 .not-list li { font-weight: 400; border: 1px solid currentColor; }
 
 /* Code and tables */

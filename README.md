@@ -42,7 +42,7 @@ You can verify these yourself: [securityheaders.com](https://securityheaders.com
 
 | Workflow | When | What it checks |
 | --- | --- | --- |
-| [CI](.github/workflows/ci.yml) → [`check-build.mjs`](scripts/check-build.mjs) | Every push and PR | Site builds · no inline code that the CSP would block · no broken internal links · `security.txt` isn't near expiry · only a *public* PGP key is published |
+| [CI](.github/workflows/ci.yml) → [`check-build.mjs`](scripts/check-build.mjs) | Every push and PR | Site builds · no inline code that the CSP would block · no broken internal links · `security.txt` isn't near expiry · only a *public* PGP key is published · all legal pages exist · no form, cookie or third-party embed has appeared without the legal pages being updated |
 | [Live checks](.github/workflows/live.yml) → [`check-live.mjs`](scripts/check-live.mjs) | Hourly and after each deploy | Site is up · HTTP→HTTPS and www→apex redirects · all security headers present · key pages reachable · TLS certificate valid for 14+ days · email DNS (MX, SPF, DKIM, DMARC) and status-page records intact |
 
 Each live run writes a results table to its run summary on the [Actions tab](https://github.com/kamllistos/web/actions/workflows/live.yml). A failed run emails the owner.
@@ -52,6 +52,7 @@ Each live run writes a results table to its run summary on the [Actions tab](htt
 ## Docs, API & changelog
 
 - **Public docs:** [kamllistos.com/docs](https://kamllistos.com/docs/) — Git & GitHub, GitHub Actions, CodeQL, Dependabot, REST API & Postman, OWASP Top 10.
+- **Legal & privacy:** [kamllistos.com/legal](https://kamllistos.com/legal/) — privacy, terms, cookies, retention, breach procedure and more, each labelled in effect / standby.
 - **Stack:** [kamllistos.com/stack](https://kamllistos.com/stack/) — every tool, honestly labelled in use / planned / lab.
 - **REST API:** read-only JSON on [`/api`](https://kamllistos.com/api) ([`worker/index.ts`](worker/index.ts)), described by [`openapi.json`](public/openapi.json) and tested hourly with the [Postman collection](public/postman/kamllistos-api.postman_collection.json).
 - **Changelog:** [kamllistos.com/changelog](https://kamllistos.com/changelog/), generated from this repo's commit history.

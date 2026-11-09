@@ -57,6 +57,29 @@ if (existsSync(pgp)) {
   if (!key.includes("BEGIN PGP PUBLIC KEY BLOCK")) fail("pgp.asc is not a public key block");
 }
 
+// 6. All fourteen legal pages must ship.
+const LEGAL = ["privacy-policy", "terms", "cookies", "legal-basis", "marketing-consent", "data-deletion", "data-retention",
+  "data-processing-agreements", "third-party-disclosure", "data-security", "data-breach-procedure", "intellectual-property",
+  "open-source-licenses", "payments-subscriptions"];
+for (const id of LEGAL) {
+  if (!existsSync(join(DIST, "legal", id, "index.html"))) fail(`legal page /legal/${id}/ is missing`);
+}
+
+// 7. Legal tripwires. The legal pages say this site has no forms, cookies or third-party content.
+// If one of these appears, update the pages under src/content/legal/ FIRST, then add its name to REVIEWED.
+const REVIEWED = [];
+const TRIPWIRES = [
+  { name: "form", in: html, pattern: /<form[\s>]/i, pages: "privacy-policy, legal-basis, data-retention" },
+  { name: "third-party-embed", in: html, pattern: /<(script|iframe|img|link)\b[^>]*\s(src|href)="(https?:)?\/\/(?!kamllistos\.com)[^"]*"/i, pages: "third-party-disclosure, cookies, data-processing-agreements" },
+  { name: "cookie", in: files(DIST).filter((f) => f.endsWith(".js")), pattern: /document\.cookie/, pages: "cookies" },
+];
+for (const t of TRIPWIRES) {
+  if (REVIEWED.includes(t.name)) continue;
+  for (const file of t.in) {
+    if (t.pattern.test(readFileSync(file, "utf8"))) fail(`${file}: new "${t.name}" found — update /legal/ (${t.pages}) first, then add "${t.name}" to REVIEWED in scripts/check-build.mjs`);
+  }
+}
+
 console.log(`Checked ${html.length} pages.`);
 if (failures.length) {
   console.error(failures.map((f) => `✗ ${f}`).join("\n"));

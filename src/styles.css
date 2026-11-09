@@ -302,7 +302,9 @@ footer .updated { background: var(--green); color: #000; padding: 1px 8px; borde
 .stack-links { display: flex; gap: 14px; margin-top: auto !important; padding-top: 8px; font-weight: 800; }
 .status { align-self: flex-start; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 8px; border: 2px solid var(--ink); color: #000; }
 .status-in-use { background: var(--green); }
-.status-planned { background: var(--yellow); }
+.status-planned, .status-standby { background: var(--yellow); }
+.status-in-effect { background: var(--green); }
+.tile .status { display: inline-block; margin-bottom: 0.75rem; }
 .status-lab { background: var(--pink); }
 
 /* Docs */

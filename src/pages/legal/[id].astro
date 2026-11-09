@@ -1,0 +1,25 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { site } from "../../site";
+
+export async function getStaticPaths() {
+  const pages = (await getCollection("legal")).sort((a, b) => a.data.order - b.data.order);
+  return pages.map((page, i) => ({ params: { id: page.id }, props: { page, next: pages[(i + 1) % pages.length] } }));
+}
+
+const { page, next } = Astro.props;
+const { Content } = await render(page);
+---
+
+<Base title={`${page.data.title} — Legal — ${site.name}`}>
+  <article class="prose doc">
+    <a class="back" href="/legal/">← All legal pages</a>
+    <p class="eyebrow">Legal & privacy</p>
+    <h1>{page.data.title}</h1>
+    <p class="lead">{page.data.description}</p>
+    <Content />
+    <hr />
+    <p class="small">Last updated {page.data.updated.toLocaleDateString("en-US", { dateStyle: "long", timeZone: "UTC" })} · <a href="/changelog/">Changelog</a> · Next: <a href={`/legal/${next.id}/`}>{next.data.title} →</a></p>
+  </article>
+</Base>

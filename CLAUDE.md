@@ -22,6 +22,7 @@ Owner has no coding background: explain plainly, keep things simple, be honest.
 - Security automation: CodeQL (`.github/workflows/codeql.yml`), Dependabot (`.github/dependabot.yml`)
 - Changelog: generated from Git history (`src/changelog.ts`) → `/changelog`, `/changelog.json`, footer "days since update" (computed in `public/site.js`)
 - Public docs: `src/content/docs/*.md` → `/docs/`; stack list `src/stack.ts` → `/stack/` (statuses must stay honest)
+- Legal & privacy: `src/content/legal/*.md` → `/legal/` (14 pages, each marked `in-effect` or `standby`; every page ends with an "If this changes" plan). `check-build.mjs` fails if a form, cookie or third-party embed appears before the legal pages are updated.
 - Icons: `public/favicon.svg` + `icon.png`, `icon-48.png`, `apple-touch-icon.png` (orange K on dark square, light corner block — same colors as camtoan.me)
 
 ## Rules
@@ -29,10 +30,14 @@ Owner has no coding background: explain plainly, keep things simple, be honest.
 - Never put secrets in the repo or chat; tokens go in GitHub/Cloudflare secrets.
 - Don't invent facts about the owner (certs, clients, dates).
 - Commit messages are published on /changelog — write them in plain English for humans.
+- Every change must show up on /changelog: one plain-English commit per meaningful change. Always.
+- Use graphify to understand the codebase instead of reading files wholesale: `pip install graphifyy`, `graphify update .`, read `graphify-out/GRAPH_REPORT.md`, then `graphify explain "<name>"`. `graphify-out/` is git-ignored.
+- Before the site collects anything new (form, account, analytics, cookie, newsletter, payment, new provider): update the matching pages in `src/content/legal/` first, then acknowledge the tripwire in `scripts/check-build.mjs`. Legal pages must describe what the site really does — no invented commitments.
 - Public docs must never include secrets, token values, account IDs or private contact details.
 
 ## Open items
 - Enable DNSSEC (Cloudflare → DS record in Namecheap).
 - Delete Netlify project after a stable week.
 - Optional: blameless postmortem of the cutover outage; Lambda "website security check" tool.
+- Legal pages: owner to confirm the commitments (12-month enquiry retention, 30-day replies, Alberta governing law, product reuse terms), confirm whether Proton offers a DPA on the current plan, and decide on a LICENSE for the repo. Not lawyer-reviewed.
 - DMARC p=quarantine → p=reject once email is proven stable.

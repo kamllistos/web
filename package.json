@@ -10,7 +10,7 @@
     "check:live": "node scripts/check-live.mjs"
   },
   "dependencies": {
-    "astro": "^7.4.0"
+    "astro": "^7.4.5"
   },
   "allowScripts": {
     "fsevents@2.3.3": true

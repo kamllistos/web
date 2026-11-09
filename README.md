@@ -43,7 +43,7 @@ You can verify these yourself: [securityheaders.com](https://securityheaders.com
 | Workflow | When | What it checks |
 | --- | --- | --- |
 | [CI](.github/workflows/ci.yml) → [`check-build.mjs`](scripts/check-build.mjs) | Every push and PR | Site builds · no inline code that the CSP would block · no broken internal links · `security.txt` isn't near expiry · only a *public* PGP key is published · all legal pages exist · no form, cookie or third-party embed has appeared without the legal pages being updated |
-| [Live checks](.github/workflows/live.yml) → [`check-live.mjs`](scripts/check-live.mjs) | Hourly and after each deploy | Site is up · HTTP→HTTPS and www→apex redirects · all security headers present · key pages reachable · TLS certificate valid for 14+ days · email DNS (MX, SPF, DKIM, DMARC) and status-page records intact |
+| [Live checks](.github/workflows/live.yml) → [`check-live.mjs`](scripts/check-live.mjs) | Hourly and after each deploy | Site is up · HTTP→HTTPS and www→apex redirects · all security headers present · key pages reachable (including the legal pages) · TLS certificate valid for 14+ days · email DNS (MX, SPF, DKIM, DMARC) and status-page records intact |
 
 Each live run writes a results table to its run summary on the [Actions tab](https://github.com/kamllistos/web/actions/workflows/live.yml). A failed run emails the owner.
 

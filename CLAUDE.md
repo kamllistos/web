@@ -21,7 +21,7 @@ Owner has no coding background: explain plainly, keep things simple, be honest.
 - Checks: `scripts/check-build.mjs` (CI) and `scripts/check-live.mjs` (hourly; site, headers, TLS, email DNS) + Newman API tests
 - Security automation: CodeQL (`.github/workflows/codeql.yml`), Dependabot (`.github/dependabot.yml`)
 - Changelog: generated from Git history (`src/changelog.ts`) → `/changelog`, `/changelog.json`, footer "days since update" (computed in `public/site.js`)
-- Public docs: `src/content/docs/*.md` → `/docs/`; stack list `src/stack.ts` → `/stack/` (statuses must stay honest)
+- Public docs: `src/content/docs/*.md` → `/docs/` (start with `architecture.md` — keep it in step when the structure changes); stack list `src/stack.ts` → `/stack/` (statuses must stay honest)
 - Legal & privacy: `src/content/legal/*.md` → `/legal/` (14 pages, each marked `in-effect` or `standby`; every page ends with an "If this changes" plan). `check-build.mjs` fails if a form, cookie or third-party embed appears before the legal pages are updated.
 - Icons: `public/favicon.svg` + `icon.png`, `icon-48.png`, `apple-touch-icon.png` (orange K on dark square, light corner block — same colors as camtoan.me)
 
@@ -39,5 +39,5 @@ Owner has no coding background: explain plainly, keep things simple, be honest.
 - Enable DNSSEC (Cloudflare → DS record in Namecheap).
 - Delete Netlify project after a stable week.
 - Optional: blameless postmortem of the cutover outage; Lambda "website security check" tool.
-- Legal pages: owner to confirm the commitments (12-month enquiry retention, 30-day replies, Alberta governing law, product reuse terms), confirm whether Proton offers a DPA on the current plan, and decide on a LICENSE for the repo. Not lawyer-reviewed.
+- Legal pages: owner to confirm the commitments (12-month enquiry retention, 30-day replies, Alberta governing law, product reuse terms, liability cap of CA$100 for free content / price paid for products), confirm whether Proton offers a DPA on the current plan, and decide on a LICENSE for the repo. Not lawyer-reviewed.
 - DMARC p=quarantine → p=reject once email is proven stable.

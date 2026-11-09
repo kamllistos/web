@@ -51,7 +51,7 @@ Each live run writes a results table to its run summary on the [Actions tab](htt
 
 ## Docs, API & changelog
 
-- **Public docs:** [kamllistos.com/docs](https://kamllistos.com/docs/) — Git & GitHub, GitHub Actions, CodeQL, Dependabot, REST API & Postman, OWASP Top 10.
+- **Public docs:** [kamllistos.com/docs](https://kamllistos.com/docs/) — Architecture, Git & GitHub, GitHub Actions, CodeQL, Dependabot, REST API & Postman, OWASP Top 10.
 - **Legal & privacy:** [kamllistos.com/legal](https://kamllistos.com/legal/) — privacy, terms, cookies, retention, breach procedure and more, each labelled in effect / standby.
 - **Stack:** [kamllistos.com/stack](https://kamllistos.com/stack/) — every tool, honestly labelled in use / planned / lab.
 - **REST API:** read-only JSON on [`/api`](https://kamllistos.com/api) ([`worker/index.ts`](worker/index.ts)), described by [`openapi.json`](public/openapi.json) and tested hourly with the [Postman collection](public/postman/kamllistos-api.postman_collection.json).

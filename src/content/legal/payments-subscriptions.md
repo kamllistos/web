@@ -12,7 +12,7 @@ updated: 2026-11-09
 
 **Products** are sold through [Gumroad](https://gumroad.com). Gumroad runs the checkout, takes the payment, handles sales tax and sends the receipt. Prices are shown on each product's page before you pay. I see your name, email and what you bought, never your card number. For a refund, email [official@camtoan.me](mailto:official@camtoan.me) and I'll handle it through Gumroad.
 
-**Services** are quoted and agreed in writing before any work starts. Prices on the [Services](/services/) page are in Canadian dollars. The quote states the price, what's included and how to pay.
+**Services** are quoted and agreed in writing before any work starts. Prices are in Canadian dollars. The quote states the price, what's included and how to pay.
 
 **The monthly retainer** is the only recurring charge I offer. Its price, what's included and how to end it are set out in the written agreement.
 

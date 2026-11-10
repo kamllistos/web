@@ -546,35 +546,85 @@ footer .updated { background: none; color: var(--accent); border: 1px solid var(
   .entry-prompt, .entry-code pre { padding: 14px; font-size: 12px; }
 }
 
-/* ---- Liquid glass: frosted, light-catching surfaces (nav, landing card, search filter bar). ----
-   Hand-built in CSS so the strict Content-Security-Policy holds (no inline styles, no library). */
+/* ---- Liquid glass (nav capsule, landing card, buttons, search filter bar). ----
+   A clear, thick-looking lens: light fill, bright rim that turns toward the pointer, inner glow, soft depth
+   shadow, springy hover. public/glass.js adds the real bending of the backdrop at the rim (Chromium);
+   without it this is frosted glass. Hand-built so the strict Content-Security-Policy holds — no library. */
+:root {
+  --glass-fill: rgba(255, 255, 255, .26); --glass-rim: rgba(255, 255, 255, .95); --glass-rim-dim: rgba(255, 255, 255, .28);
+  --glass-glow: rgba(255, 255, 255, .22); --glass-shade: rgba(29, 29, 29, .22);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --glass-fill: rgba(255, 255, 255, .055); --glass-rim: rgba(255, 255, 255, .55); --glass-rim-dim: rgba(255, 255, 255, .1);
+    --glass-glow: rgba(255, 255, 255, .06); --glass-shade: rgba(0, 0, 0, .65);
+  }
+}
+:root[data-theme="dark"] {
+  --glass-fill: rgba(255, 255, 255, .055); --glass-rim: rgba(255, 255, 255, .55); --glass-rim-dim: rgba(255, 255, 255, .1);
+  --glass-glow: rgba(255, 255, 255, .06); --glass-shade: rgba(0, 0, 0, .65);
+}
 .glass-defs { position: absolute; width: 0; height: 0; }
 .glass {
-  background: linear-gradient(135deg, color-mix(in srgb, var(--bg) 60%, transparent), color-mix(in srgb, var(--bg) 32%, transparent));
-  border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent);
-  backdrop-filter: blur(12px) saturate(1.7); -webkit-backdrop-filter: blur(12px) saturate(1.7);
+  --glint: 135deg;
+  isolation: isolate; border: 0; border-radius: 30px; background: var(--glass-fill);
+  backdrop-filter: blur(14px) saturate(1.8); -webkit-backdrop-filter: blur(14px) saturate(1.8);
+  /* The rest of the site is flat (no shadows); glass is the one place depth is allowed. */
+  box-shadow:
+    inset 0 1px 1px var(--glass-rim), inset 0 -1px 1px var(--glass-rim-dim), inset 0 0 26px var(--glass-glow),
+    0 1px 2px rgba(0, 0, 0, .1), 0 22px 50px -14px var(--glass-shade) !important;
 }
-/* Sheen: light catching the top-left edge and a fainter glint bottom-right. */
+/* Rim: a hairline ring, bright where the light hits and again faintly on the far side. */
 .glass::before {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(135deg, rgba(255, 255, 255, .26), transparent 34%, transparent 66%, rgba(255, 255, 255, .1));
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.2px; pointer-events: none;
+  background: linear-gradient(var(--glint), var(--glass-rim), transparent 32%, transparent 68%, var(--glass-rim-dim));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
 }
-/* shortcut: Chromium is detected by what Safari and Firefox support and it doesn't; only Chromium can bend the
-   backdrop with an SVG filter. Replace with a real feature query if one ever exists. */
-@supports (not (-webkit-hyphens: none)) and (not (-moz-appearance: none)) {
-  .glass { backdrop-filter: url(#liquid) blur(3px) saturate(1.7); }
+/* Sheen: a soft highlight pooled near the top-left, under the content. */
+.glass::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(120% 90% at 18% -20%, var(--glass-glow), transparent 60%);
 }
-.nav.glass { border-width: 0 0 1px; }
-.db-bar.glass { border-width: 0 0 1px; padding-left: 12px; padding-right: 12px; }
+
+/* Nav: a floating capsule instead of a bar glued to the top edge. */
+.nav.glass {
+  top: 12px; width: min(1080px, calc(100% - 24px)); margin: 12px auto 0; border-radius: 999px;
+  background: var(--glass-fill); border: 0; --glass-bezel: 20px;
+}
+.nav.glass .nav-inner { max-width: none; height: 52px; padding: 0 12px 0 22px; }
+.nav-brand { white-space: nowrap; }
+.nav.glass .theme { border-color: var(--line); border-radius: 999px; overflow: hidden; }
+.nav.glass .theme button + button { border-left-color: var(--line); }
+html { scroll-padding-top: 88px; }
+
+/* Glass buttons: clear capsule, or tinted with the accent for the main action. */
+.pill.glass { position: relative; border-radius: 999px; padding: 12px 22px; color: var(--ink); background: var(--glass-fill); }
+.pill.glass:hover { background: var(--glass-fill); color: var(--accent); }
+.pill.glass-tint, .pill.glass-tint:hover { background: color-mix(in srgb, var(--accent) 82%, transparent); color: #fff; }
+.db-bar.glass { top: 76px; border-radius: 22px; padding: 14px 16px; border: 0; background: var(--glass-fill); --glass-bezel: 16px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Springy, slightly overshooting — the "liquid" part. */
+  .glass { transition: transform .45s cubic-bezier(.34, 1.56, .64, 1), box-shadow .3s; }
+  .landing-card.glass:hover { transform: scale(1.012); }
+  .pill.glass:hover { transform: scale(1.06); }
+  .pill.glass:active { transform: scale(.96); }
+}
+@media (max-width: 600px) {
+  .nav.glass { border-radius: 26px; }
+  .nav.glass .nav-inner { height: auto; padding: 10px 16px; }
+  .db-bar.glass { top: auto; }
+}
 
 /* ---- Landing page: ASCII clouds drifting over grid paper, a glass card, and an ASCII site tree. ---- */
 .landing {
-  position: relative; overflow: hidden; min-height: calc(100dvh - 61px); display: flex; align-items: center;
+  position: relative; overflow: hidden; min-height: 100dvh; margin-top: -64px; padding-top: 64px; display: flex; align-items: center;
   background-image: linear-gradient(var(--rule) 1px, transparent 1px), linear-gradient(90deg, var(--rule) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 .landing-inner { position: relative; width: 100%; max-width: 1080px; margin: 0 auto; padding: 72px 1rem 88px; }
-.landing-card { position: relative; max-width: 720px; padding: clamp(24px, 5vw, 48px); }
+.landing-card { position: relative; max-width: 760px; padding: clamp(28px, 5vw, 56px); border-radius: 36px; --glass-bezel: 34px; }
 .landing-card .lead { margin-left: 0; }
 .landing-card .ctas { justify-content: flex-start; }
 
@@ -607,7 +657,8 @@ footer .updated { background: none; color: var(--accent); border: 1px solid var(
 .tree span { color: var(--muted); margin-left: .6ch; }
 .tree span::before { content: "# "; }
 @media (max-width: 600px) {
-  .landing-inner { padding: 40px 1rem 56px; }
+  .landing { margin-top: 0; padding-top: 0; min-height: calc(100dvh - 120px); }
+  .landing-inner { padding: 32px 1rem 56px; }
   .tree span { display: block; margin-left: 4ch; line-height: 1.4; padding-bottom: 6px; }
   .sky .cloud { font-size: 10px; }
 }

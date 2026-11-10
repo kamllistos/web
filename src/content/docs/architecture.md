@@ -40,7 +40,7 @@ kamllistos.com is a **static site**. Every page is built ahead of time into plai
 | Changelog | Generated from the Git history | `src/changelog.ts` |
 | REST API | Read-only JSON on `/api`, answering GET requests only | `worker/index.ts` |
 | Security headers | Content-Security-Policy, HSTS and the rest | `public/_headers` |
-| Browser scripts | Search, theme toggle, small page behaviours. No third-party scripts. | `public/*.js` |
+| Browser scripts | Search, theme toggle, the glass effect, small page behaviours. No third-party scripts. | `public/*.js` |
 
 ## What sits around the site
 

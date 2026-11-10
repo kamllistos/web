@@ -16,7 +16,7 @@ Owner has no coding background: explain plainly, keep things simple, be honest.
 ## Where things live
 - Text: `src/site.ts` · About lives on camtoan.me (`/about` redirects there)
 - Security feature database: data `src/db.json` (typed in `src/db.ts`) → `/search/` page + `/glossary/<slug>/` pages. (also served by `/api/glossary`). Home (`src/pages/index.astro`) is a landing page: ASCII clouds, glass card, ASCII site tree
-- Design: same language as camtoan.me (mono + heavy sans, hairline borders, grid paper, one orange accent, Auto/Light/Dark toggle via `public/theme.js`) in `src/styles.css`. No mascot. Liquid-glass surfaces use the `.glass` class (CSS + the `#liquid` SVG filter in `Base.astro`; no library, CSP unchanged).
+- Design: same language as camtoan.me (mono + heavy sans, hairline borders, grid paper, one orange accent, Auto/Light/Dark toggle via `public/theme.js`) in `src/styles.css`. No mascot. Liquid-glass surfaces use the `.glass` class: look in `src/styles.css`, rim refraction in `public/glass.js` (builds an SVG lens filter per element; Chromium only, frosted fallback elsewhere; no library, CSP unchanged). Glass is the only place shadows and round corners are allowed.
 - Security headers: `public/_headers` (strict CSP — no inline scripts/styles) · Redirects: `public/_redirects`
 - Checks: `scripts/check-build.mjs` (CI) and `scripts/check-live.mjs` (hourly; site, headers, TLS, email DNS) + Newman API tests
 - Security automation: CodeQL (`.github/workflows/codeql.yml`), Dependabot (`.github/dependabot.yml`)

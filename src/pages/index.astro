@@ -2,40 +2,7 @@
 import Base from "../layouts/Base.astro";
 import { site } from "../site";
 import { entries } from "../db";
-
-// ASCII clouds for the sky behind the landing page. Each drifts at its own height and speed (styles.css).
-const clouds = [
-  String.raw`
-        .--.
-     .-(    ).
-    (___.__)__)`,
-  String.raw`
-           .-~~~-.
-   .- ~ ~-(       )_ _
-  /                     ~ -.
- |                           \
-  \                         .'
-    ~- . _____________ . -~`,
-  String.raw`
-      _  _
-    ( ` + "`" + String.raw`   )_
-   (    )    ` + "`" + String.raw`)
-  (_   (_ .  _) _)`,
-  String.raw`
-     .--.    .-.
-  .-(    )--(   ).
- (___.___)_____.__)`,
-  String.raw`
-       __   _
-     _(  )_( )_
-    (_   _    _)
-      (_) (__)`,
-  String.raw`
-          .-~~-.
-  .- ~ ~-(      )- .
- (                   )
-  ~- . __________ . ~`,
-];
+import { clouds, whale, birds, stars } from "../sky";
 
 const tree = [
   { href: "/search/", name: "search/", note: `${entries.length} security features, searchable in plain words` },
@@ -48,7 +15,10 @@ const tree = [
 <Base title={`${site.brand.name} — security, made simple`} description="Small, useful security tools for people without a security team. Start with the free, searchable security feature database.">
   <section class="landing">
     <div class="sky" aria-hidden="true">
+      {stars.map((s) => <span class="star">{s}</span>)}
       {clouds.map((c, i) => <pre class={`cloud cloud-${i + 1}`}>{c}</pre>)}
+      <div class="flyer birds">{birds.map((f) => <pre>{f}</pre>)}</div>
+      <div class="flyer whale">{whale.map((f) => <pre>{f}</pre>)}</div>
     </div>
 
     <div class="landing-inner">

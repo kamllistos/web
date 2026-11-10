@@ -551,24 +551,24 @@ footer .updated { background: none; color: var(--accent); border: 1px solid var(
    shadow, springy hover. public/glass.js adds the real bending of the backdrop at the rim (Chromium);
    without it this is frosted glass. Hand-built so the strict Content-Security-Policy holds — no library. */
 :root {
-  --glass-fill: rgba(255, 255, 255, .26); --glass-rim: rgba(255, 255, 255, .95); --glass-rim-dim: rgba(255, 255, 255, .28);
-  --glass-glow: rgba(255, 255, 255, .22); --glass-shade: rgba(29, 29, 29, .22);
+  --glass-fill: rgba(255, 255, 255, .1); --glass-rim: rgba(255, 255, 255, .95); --glass-rim-dim: rgba(255, 255, 255, .28);
+  --glass-glow: rgba(255, 255, 255, .14); --glass-shade: rgba(29, 29, 29, .22);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --glass-fill: rgba(255, 255, 255, .055); --glass-rim: rgba(255, 255, 255, .55); --glass-rim-dim: rgba(255, 255, 255, .1);
+    --glass-fill: rgba(255, 255, 255, .03); --glass-rim: rgba(255, 255, 255, .55); --glass-rim-dim: rgba(255, 255, 255, .1);
     --glass-glow: rgba(255, 255, 255, .06); --glass-shade: rgba(0, 0, 0, .65);
   }
 }
 :root[data-theme="dark"] {
-  --glass-fill: rgba(255, 255, 255, .055); --glass-rim: rgba(255, 255, 255, .55); --glass-rim-dim: rgba(255, 255, 255, .1);
+  --glass-fill: rgba(255, 255, 255, .03); --glass-rim: rgba(255, 255, 255, .55); --glass-rim-dim: rgba(255, 255, 255, .1);
   --glass-glow: rgba(255, 255, 255, .06); --glass-shade: rgba(0, 0, 0, .65);
 }
 .glass-defs { position: absolute; width: 0; height: 0; }
 .glass {
-  --glint: 135deg;
-  isolation: isolate; border: 0; border-radius: 30px; background: var(--glass-fill);
-  backdrop-filter: blur(14px) saturate(1.8); -webkit-backdrop-filter: blur(14px) saturate(1.8);
+  --glint: 135deg; --glass-blur: .8px;
+  isolation: isolate; border: 0; border-radius: 40px; background: var(--glass-fill);
+  backdrop-filter: blur(6px) saturate(1.8); -webkit-backdrop-filter: blur(6px) saturate(1.8);
   /* The rest of the site is flat (no shadows); glass is the one place depth is allowed. */
   box-shadow:
     inset 0 1px 1px var(--glass-rim), inset 0 -1px 1px var(--glass-rim-dim), inset 0 0 26px var(--glass-glow),
@@ -602,7 +602,7 @@ html { scroll-padding-top: 88px; }
 .pill.glass { position: relative; border-radius: 999px; padding: 12px 22px; color: var(--ink); background: var(--glass-fill); }
 .pill.glass:hover { background: var(--glass-fill); color: var(--accent); }
 .pill.glass-tint, .pill.glass-tint:hover { background: color-mix(in srgb, var(--accent) 82%, transparent); color: #fff; }
-.db-bar.glass { top: 76px; border-radius: 22px; padding: 14px 16px; border: 0; background: var(--glass-fill); --glass-bezel: 16px; }
+.db-bar.glass { top: 76px; border-radius: 30px; padding: 14px 16px; border: 0; background: var(--glass-fill); --glass-bezel: 16px; }
 
 @media (prefers-reduced-motion: no-preference) {
   /* Springy, slightly overshooting — the "liquid" part. */
@@ -612,7 +612,8 @@ html { scroll-padding-top: 88px; }
   .pill.glass:active { transform: scale(.96); }
 }
 @media (max-width: 600px) {
-  .nav.glass { border-radius: 26px; }
+  .nav.glass { border-radius: 30px; }
+  .landing-card { border-radius: 40px; }
   .nav.glass .nav-inner { height: auto; padding: 10px 16px; }
   .db-bar.glass { top: auto; }
 }
@@ -624,7 +625,7 @@ html { scroll-padding-top: 88px; }
   background-size: 40px 40px;
 }
 .landing-inner { position: relative; width: 100%; max-width: 1080px; margin: 0 auto; padding: 72px 1rem 88px; }
-.landing-card { position: relative; max-width: 760px; padding: clamp(28px, 5vw, 56px); border-radius: 36px; --glass-bezel: 34px; }
+.landing-card { position: relative; max-width: 760px; padding: clamp(28px, 5vw, 56px); border-radius: 52px; --glass-bezel: 36px; }
 .landing-card .lead { margin-left: 0; }
 .landing-card .ctas { justify-content: flex-start; }
 

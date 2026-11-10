@@ -83,7 +83,7 @@
     f.append(make("feImage", { href: lensMap(w, h, radius, bezel), x: 0, y: 0, width: w, height: h, preserveAspectRatio: "none", result: "map" }));
     // Three passes, one per colour, each bent a little less: the rim gets a faint rainbow fringe.
     const keep = { r: "1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0", g: "0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0", b: "0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" };
-    [["r", 1], ["g", 0.94], ["b", 0.88]].forEach(([c, k]) => {
+    [["r", 1], ["g", 0.975], ["b", 0.95]].forEach(([c, k]) => {
       f.append(make("feDisplacementMap", { in: "SourceGraphic", in2: "map", scale: scale * k, xChannelSelector: "R", yChannelSelector: "G", result: `d${c}` }));
       f.append(make("feColorMatrix", { in: `d${c}`, type: "matrix", values: keep[c], result: c }));
     });

@@ -36,21 +36,22 @@ export const clouds = [
 ];
 
 // Things that fly through now and then. Each has two frames that swap, so tails and wings flap.
+// The whale faces right because it swims left to right and loops the loop on the way (styles.css).
 export const whale = [
   String.raw`
-        .
-       ":"
-     ___:____      |"\/"|
-   ,'        '.     \  /
-   |  o        \____/  |
-    \_________________/`,
+                  .
+                 ":"
+ |"\/"|      ____:____
+  \  /     ,'         '.
+  |  \____/         o   |
+   \___________________/`,
   String.raw`
-       ' '
-       ":"
-     ___:____      \"\/"/
-   ,'        '.     |  |
-   |  o        \____/  |
-    \_________________/`,
+                 ' '
+                 ":"
+ \"\/"/      ____:____
+  |  |     ,'         '.
+  |  \____/         o   |
+   \___________________/`,
 ];
 export const birds = [
   String.raw`

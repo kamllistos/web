@@ -631,13 +631,14 @@ html { scroll-padding-top: 88px; }
 .landing-card .ctas { justify-content: flex-start; }
 
 .sky { position: absolute; inset: 0; pointer-events: none; }
-.cloud { position: absolute; margin: 0; font: 13px/1.15 var(--mono); color: var(--ink); white-space: pre; user-select: none; }
-.cloud-1 { top: 6%; left: 8%; opacity: .5; font-size: 15px; }
-.cloud-2 { top: 18%; left: 52%; opacity: .75; font-size: 18px; }
-.cloud-3 { top: 40%; left: 24%; opacity: .4; font-size: 13px; }
-.cloud-4 { top: 56%; left: 70%; opacity: .6; font-size: 16px; }
-.cloud-5 { top: 72%; left: 4%; opacity: .45; font-size: 14px; }
-.cloud-6 { top: 82%; left: 44%; opacity: .7; font-size: 19px; }
+.sky { font-size: clamp(8px, 1.05vw, 15px); }
+.cloud { position: absolute; margin: 0; font: 1em/1.15 var(--mono); color: var(--ink); white-space: pre; user-select: none; }
+.cloud-1 { top: 6%; left: 8%; opacity: .5; font-size: 1em; }
+.cloud-2 { top: 18%; left: 52%; opacity: .75; font-size: 1.25em; }
+.cloud-3 { top: 40%; left: 24%; opacity: .4; font-size: .9em; }
+.cloud-4 { top: 56%; left: 70%; opacity: .6; font-size: 1.1em; }
+.cloud-5 { top: 72%; left: 4%; opacity: .45; font-size: .95em; }
+.cloud-6 { top: 82%; left: 44%; opacity: .7; font-size: 1.3em; }
 @media (prefers-reduced-motion: no-preference) {
   /* Each cloud starts off-screen left and floats across; negative delays spread them out on first paint. */
   .cloud { left: 0; animation: drift 90s linear infinite, bob 9s ease-in-out infinite alternate; }
@@ -658,10 +659,16 @@ html { scroll-padding-top: 88px; }
 .star:nth-child(7) { top: 61%; left: 34%; } .star:nth-child(8) { top: 66%; left: 91%; } .star:nth-child(9) { top: 78%; left: 17%; }
 .star:nth-child(10) { top: 88%; left: 73%; } .star:nth-child(11) { top: 93%; left: 39%; } .star:nth-child(12) { top: 52%; left: 79%; }
 .flyer { position: absolute; left: 0; display: none; }
-.flyer pre { margin: 0; font: 14px/1.1 var(--mono); white-space: pre; }
+.flyer pre { margin: 0; font: 1em/1.1 var(--mono); white-space: pre; }
 .flyer pre + pre { position: absolute; inset: 0; }
-.whale { top: 30%; color: var(--accent); }
-.whale pre { font-size: 15px; }
+.whale { position: relative; color: var(--accent); }
+.whale pre { font-size: clamp(9px, 1.25vw, 17px); }
+/* The whale's path: .swim carries it across the sky, .loop swings it round a circle whose centre is above it. */
+.swim { position: absolute; left: 0; top: 50%; display: none; }
+.swim.calf { top: 60%; }
+.calf .whale pre { font-size: clamp(6px, .8vw, 11px); }
+.loop { --r: clamp(70px, 17vh, 180px); transform-origin: 50% calc(50% - var(--r)); }
+.calf .loop { --r: clamp(50px, 12vh, 120px); }
 .birds { top: 12%; color: var(--ink); opacity: .7; }
 @media (prefers-reduced-motion: no-preference) {
   .star { animation: twinkle 3.4s ease-in-out infinite; }
@@ -675,10 +682,16 @@ html { scroll-padding-top: 88px; }
   .birds pre { animation-duration: .45s; }
   @keyframes frame-a { 0% { opacity: 1; } 50% { opacity: 0; } }
   @keyframes frame-b { 0% { opacity: 0; } 50% { opacity: 1; } }
-  /* The whale swims right to left on a lazy arc about once every 70 seconds, then waits off-screen. */
-  .whale { animation: whale-pass 70s linear 2s infinite backwards, whale-bob 4.5s ease-in-out infinite alternate; }
-  @keyframes whale-pass { 0% { translate: 100vw 30px; } 20% { translate: 50vw -40px; } 42%, 100% { translate: -130% 30px; } }
-  @keyframes whale-bob { from { transform: translateY(-12px) rotate(-3deg); } to { transform: translateY(12px) rotate(3deg); } }
+  /* Every 34 seconds the whale swims in from the left, loops the loop mid-screen (belly-up at the top, like a
+     real breach roll), and swims out to the right. Its calf follows a couple of seconds behind on a smaller loop. */
+  .swim { display: block; animation: swim 34s linear 1.5s infinite backwards; }
+  .loop { animation: loop 34s ease-in-out 1.5s infinite backwards; }
+  .swim.calf, .calf .loop { animation-delay: 3.6s; }
+  @keyframes swim { 0% { translate: -45vw 4vh; } 30% { translate: 28vw -2vh; } 64%, 100% { translate: 112vw -10vh; } }
+  @keyframes loop { 0%, 24% { rotate: 0deg; } 42%, 100% { rotate: -360deg; } }
+  .whale { animation: whale-bob 2.8s ease-in-out infinite alternate; }
+  .whale pre { animation-duration: .7s; }
+  @keyframes whale-bob { from { transform: translateY(-7px) rotate(-5deg); } to { transform: translateY(7px) rotate(4deg); } }
   .birds { animation: birds-pass 36s linear 9s infinite backwards; }
   @keyframes birds-pass { 0% { translate: -130% 0; } 55%, 100% { translate: 100vw -70px; } }
 }
@@ -694,7 +707,123 @@ html { scroll-padding-top: 88px; }
   .landing { margin-top: 0; padding-top: 0; min-height: calc(100dvh - 120px); }
   .landing-inner { padding: 32px 1rem 56px; }
   .tree span { display: block; margin-left: 4ch; line-height: 1.4; padding-bottom: 6px; }
-  .sky .cloud { font-size: 10px; }
-  .whale pre { font-size: 11px; }
-  .birds pre { font-size: 10px; }
 }
+
+/* ==== Glass everywhere, fluid sizing. ====
+   Last on purpose: it restyles the older flat components (cards, chips, inputs, badges, footer) as glass panes and
+   capsules without touching their markup, and swaps fixed pixel sizes for ones that flow with the window width.
+   Panes are the cheap version of .glass (fill, rim, shadow — no backdrop filter), so 70 cards stay smooth. */
+:root {
+  --r-lg: clamp(24px, 3.2vw, 40px); --r-md: clamp(16px, 2vw, 24px);
+  --gutter: clamp(14px, 3.5vw, 40px); --gap: clamp(10px, 1.4vw, 16px);
+  --pane: rgba(255, 255, 255, .58); --pane-edge: rgba(29, 29, 29, .08); --pane-rim: rgba(255, 255, 255, .95);
+  --pane-shadow: inset 0 1px 0 var(--pane-rim), inset 0 0 0 1px var(--pane-edge), 0 1px 2px rgba(0, 0, 0, .05), 0 16px 34px -20px var(--glass-shade);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --pane: rgba(255, 255, 255, .045); --pane-edge: rgba(255, 255, 255, .09); --pane-rim: rgba(255, 255, 255, .16); }
+}
+:root[data-theme="dark"] { --pane: rgba(255, 255, 255, .045); --pane-edge: rgba(255, 255, 255, .09); --pane-rim: rgba(255, 255, 255, .16); }
+
+/* Grid paper runs behind every page, so glass always has something to show through. */
+body {
+  font-size: clamp(14px, .82rem + .22vw, 16px);
+  background-image: linear-gradient(var(--rule) 1px, transparent 1px), linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+  background-size: 40px 40px; background-attachment: fixed;
+}
+.hero, .landing { background-image: none; }
+.hero { padding: clamp(56px, 9vw, 120px) var(--gutter) clamp(40px, 7vw, 96px); }
+.band, .band-gray { padding: clamp(40px, 7vw, 88px) var(--gutter); border-top: 0; }
+.db-hero { padding: clamp(48px, 8vw, 96px) var(--gutter) clamp(36px, 6vw, 72px); }
+.db-band { padding: clamp(24px, 4vw, 40px) var(--gutter) clamp(48px, 8vw, 96px); }
+.db-areas { padding: clamp(40px, 6vw, 72px) var(--gutter) clamp(48px, 8vw, 96px); border-top: 0; }
+.entry-head { padding: clamp(40px, 7vw, 88px) var(--gutter) clamp(32px, 5vw, 64px); }
+.entry-body { padding: 0 var(--gutter) clamp(40px, 6vw, 72px); }
+.prose { padding: clamp(48px, 7vw, 72px) var(--gutter) clamp(56px, 8vw, 96px); }
+.landing-inner { padding: clamp(32px, 6vw, 72px) var(--gutter) clamp(48px, 7vw, 88px); }
+.marquee { border-bottom: 0; }
+
+/* Panes: every box. */
+.db-card, .tile, .product-card, .stack-card, .cl-day, .entry-parts li, .entry-prompt, .entry-code, .doc pre, .doc table,
+.db-area, .tree, .cp-prev, .cp-next, footer {
+  background: var(--pane); border: 0; border-radius: var(--r-md); box-shadow: var(--pane-shadow) !important;
+}
+.db-grid, .entry-parts { gap: var(--gap); border: 0; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
+.db-area-grid { gap: var(--gap); border: 0; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); }
+.products, .stack-grid, .tiles { gap: var(--gap); grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); }
+.db-card { min-height: 0; padding: clamp(16px, 2vw, 22px); }
+.db-card:hover, .db-card:focus-visible { background: var(--pane); }
+.db-area, .db-area:hover { padding: 18px 20px; }
+.tile, .product-card, .stack-card, .cl-day { padding: clamp(18px, 2.4vw, 26px); }
+.entry-code { overflow: hidden; }
+.entry-code-top { margin: 0; border: 0; border-bottom: 1px solid var(--pane-edge); padding: 8px 8px 8px 18px; }
+.entry-code pre { border: 0; background: none; }
+.doc table { border-collapse: separate; border-spacing: 0; }
+.doc th, .doc td { border-width: 0 0 1px; }
+.doc td code, .doc th code { white-space: normal; overflow-wrap: anywhere; }
+.prose code { word-break: normal; overflow-wrap: anywhere; }
+.tree { width: fit-content; max-width: 100%; padding: 16px 22px; }
+.cp-prev, .cp-next { padding: 12px 18px; }
+footer { width: min(1080px, calc(100% - 24px)); margin: clamp(24px, 5vw, 64px) auto 16px; padding: 18px var(--gutter); border-radius: var(--r-lg); }
+
+/* Capsules: every control and badge. */
+.pill, .chip, .marquee-item, .copy-btn, .db-surprise, .db-sort, .theme, .entry-said a, .entry-cwe, .db-pri, .status,
+.product-badge, footer .updated, .updated-big .updated, .step-num { border-radius: 999px; }
+.chip, .marquee-item, .copy-btn, .db-surprise, .db-sort, .theme, .entry-said a, .entry-cwe {
+  background: var(--pane); border: 0; box-shadow: var(--pane-shadow) !important;
+}
+.chip { padding: 7px 14px; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.chip-must { box-shadow: var(--pane-shadow), inset 0 0 0 1.5px var(--accent) !important; }
+.marquee-item, .entry-said a { padding: 7px 14px; }
+.copy-btn, .db-surprise { padding: 7px 14px; }
+.db-sort, .theme { padding: 3px; gap: 2px; }
+.db-sort button, .theme button { border-radius: 999px; padding: 5px 11px; font-size: clamp(11px, .6rem + .25vw, 12px); }
+.db-sort button + button, .theme button + button, .nav.glass .theme button + button { border-left: 0; }
+.pill { border: 0; padding: 12px 22px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28), 0 12px 26px -14px var(--glass-shade) !important; }
+.db-pri, .status, .product-badge, .entry-cwe { padding: 2px 10px; }
+kbd { border: 0; border-radius: 8px; padding: 2px 8px; background: var(--pane); box-shadow: var(--pane-shadow) !important; }
+
+/* Search box: a glass capsule with the real lens (it carries the .glass class). */
+.db-search-wrap.glass { border-radius: 999px; --glass-bezel: 22px; --glass-blur: 3px; }
+.db-search-wrap.glass::after { inset: 0; height: auto; transform: none; transition: none; background: radial-gradient(120% 90% at 18% -20%, var(--glass-glow), transparent 60%); }
+.db-search-wrap.glass:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.db-search { background: transparent; border: 0; border-radius: 999px; font-size: clamp(16px, .8rem + .6vw, 21px); padding: clamp(15px, 2vw, 22px) 64px clamp(15px, 2vw, 22px) 60px; }
+.db-search:focus-visible { outline: 0; }
+.db-bar.glass { border-radius: var(--r-md); }
+
+/* Link cards rise a little on hover and get an accent ring. */
+a.db-card:hover, a.tile:hover, a.product-card:hover, a.db-area:hover, .cp-prev:hover, .cp-next:hover {
+  box-shadow: var(--pane-shadow), 0 0 0 1.5px var(--accent) !important;
+}
+@media (prefers-reduced-motion: no-preference) {
+  a.db-card, a.tile, a.product-card, a.db-area, .cp-prev, .cp-next, .chip, .pill, .marquee-item { transition: transform .4s cubic-bezier(.34, 1.56, .64, 1), box-shadow .25s, background .2s, color .2s; }
+  a.db-card:hover, a.tile:hover, a.product-card:hover, a.db-area:hover, .cp-prev:hover, .cp-next:hover { transform: translateY(-3px); }
+  .chip:hover, .pill:hover, .marquee-item:hover { transform: scale(1.04); }
+  .pill:active, .chip:active { transform: scale(.96); }
+}
+
+/* Menu: text and gaps shrink smoothly with the window; when it still cannot fit on one row, the brand and theme
+   switch share the first row and the links get a full row of their own. Nothing is ever squeezed or cut off. */
+.nav.glass { border-radius: 28px; }
+.nav.glass .nav-inner { height: auto; min-height: 52px; padding: 6px 10px 6px clamp(14px, 2vw, 22px); gap: clamp(.6rem, 1.6vw, 1.4rem); }
+.nav a { font-size: clamp(12px, .55rem + .55vw, 14px); white-space: nowrap; }
+.nav-brand { font-size: clamp(13px, .6rem + .6vw, 15px); }
+.nav-links { gap: clamp(.7rem, 1.9vw, 1.5rem); }
+.nav-end { gap: clamp(.6rem, 1.6vw, 1.4rem); }
+@media (max-width: 720px) {
+  .nav.glass .nav-inner { flex-wrap: wrap; row-gap: 4px; padding: 8px 10px 8px 16px; }
+  .nav-end { display: contents; }
+  .nav .theme { order: 2; margin-left: auto; }
+  .nav-links { order: 3; flex: 1 0 100%; width: auto; flex-wrap: nowrap; justify-content: space-between; gap: 0; padding: 2px 8px 4px 0; }
+  .nav a { font-size: clamp(12px, 3.4vw, 14px); }
+  html { scroll-padding-top: 116px; }
+  .landing { margin-top: 0; padding-top: 0; }
+  .db-bar.glass { position: static; }
+  .db-chips { flex-wrap: nowrap; overflow-x: auto; padding: 4px 2px 8px; scrollbar-width: none; }
+  .chip { flex: none; }
+  .cp-nav { flex-direction: column; align-items: stretch; }
+  .cp-prev, .cp-next { max-width: none; }
+  .cp-next { text-align: left; margin-left: 0; }
+  footer { border-radius: var(--r-md); }
+}
+.entry-note { margin: 0; padding: 10px 18px 14px; max-width: none; border-top: 1px solid var(--pane-edge); }

@@ -18,7 +18,10 @@ const tree = [
       {stars.map((s) => <span class="star">{s}</span>)}
       {clouds.map((c, i) => <pre class={`cloud cloud-${i + 1}`}>{c}</pre>)}
       <div class="flyer birds">{birds.map((f) => <pre>{f}</pre>)}</div>
-      <div class="flyer whale">{whale.map((f) => <pre>{f}</pre>)}</div>
+      {/* A whale and its calf: .swim carries them across, .loop swings them through a full loop on the way. */}
+      {["", " calf"].map((who) => (
+        <div class={`swim${who}`}><div class="loop"><div class="flyer whale">{whale.map((f) => <pre>{f}</pre>)}</div></div></div>
+      ))}
     </div>
 
     <div class="landing-inner">

@@ -10,13 +10,13 @@ Owner has no coding background: explain plainly, keep things simple, be honest.
 - DNS: Cloudflare. camtoan.me registered at Namecheap (nameservers seamus/tegan, auto-renew on, expires 2027-07-08); kamllistos.com registered at Cloudflare.
 - Email: Proton Mail, official@camtoan.me. MX/SPF/DKIM(3 CNAMEs)/DMARC must stay **DNS only** in Cloudflare.
 - Status page: status.camtoan.me (Upptime, repo kamllistos/status, CNAME → kamllistos.github.io, DNS only).
-- Substack: camtoando.substack.com, pulled into /blog at build time (`src/substack.ts`).
+- Blog: lives on camtoan.me/blog (repo camtoan-do/website, refreshed daily from Substack by a GitHub Action there). `/blog*` here redirects to it. Services also live on camtoan.me/services (`/services` redirects).
 - Netlify: old host, kept briefly as fallback; to be deleted.
 
 ## Where things live
-- Text: `src/site.ts` · About lives on camtoan.me (`/about` redirects there) · Posts: `src/content/blog/`
-- Security feature database: data `src/db.json` (typed in `src/db.ts`) → home page search + `/glossary/<slug>/` pages (also served by `/api/glossary`)
-- Design: same language as camtoan.me (mono + heavy sans, hairline borders, grid paper, one orange accent, Auto/Light/Dark toggle via `public/theme.js`) in `src/styles.css`. No mascot.
+- Text: `src/site.ts` · About lives on camtoan.me (`/about` redirects there)
+- Security feature database: data `src/db.json` (typed in `src/db.ts`) → `/search/` page + `/glossary/<slug>/` pages. (also served by `/api/glossary`). Home (`src/pages/index.astro`) is a landing page: ASCII clouds, glass card, ASCII site tree
+- Design: same language as camtoan.me (mono + heavy sans, hairline borders, grid paper, one orange accent, Auto/Light/Dark toggle via `public/theme.js`) in `src/styles.css`. No mascot. Liquid-glass surfaces use the `.glass` class (CSS + the `#liquid` SVG filter in `Base.astro`; no library, CSP unchanged).
 - Security headers: `public/_headers` (strict CSP — no inline scripts/styles) · Redirects: `public/_redirects`
 - Checks: `scripts/check-build.mjs` (CI) and `scripts/check-live.mjs` (hourly; site, headers, TLS, email DNS) + Newman API tests
 - Security automation: CodeQL (`.github/workflows/codeql.yml`), Dependabot (`.github/dependabot.yml`)

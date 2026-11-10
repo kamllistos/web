@@ -62,7 +62,7 @@ await check("Security headers present", async () => {
   return `${required.length}/${required.length} headers`;
 });
 
-for (const path of ["/.well-known/security.txt", "/pgp.asc", "/security/", "/blog/", "/services/", "/changelog/", "/stack/", "/docs/", "/legal/", "/legal/privacy-policy/", "/openapi.json"]) {
+for (const path of ["/.well-known/security.txt", "/pgp.asc", "/security/", "/search/", "/changelog/", "/stack/", "/docs/", "/legal/", "/legal/privacy-policy/", "/openapi.json"]) {
   await check(`${path} reachable`, async () => {
     const res = await get(BASE + path);
     if (res.status !== 200) throw new Error(`HTTP ${res.status}`);
@@ -70,14 +70,15 @@ for (const path of ["/.well-known/security.txt", "/pgp.asc", "/security/", "/blo
   });
 }
 
-// Informational only: how many Substack posts made it onto the live blog.
-await check("Blog page renders (Substack posts counted)", async () => {
-  const res = await get(`${BASE}/blog/`);
-  if (res.status !== 200) throw new Error(`HTTP ${res.status}`);
-  const count = (res.body.match(/Substack ↗/g) ?? []).length;
-  console.log(`\n::notice::Live blog lists ${count} Substack post(s)`);
-  return `${count} Substack post(s)`;
-});
+// The blog and services moved to camtoan.me; old links must keep landing there.
+for (const [path, to] of [["/blog/", "https://camtoan.me/blog/"], ["/services/", "https://camtoan.me/services/"]]) {
+  await check(`${path} redirects to camtoan.me`, async () => {
+    const res = await get(BASE + path);
+    const loc = res.headers.get("location") ?? "";
+    if (res.status !== 301 || loc !== to) throw new Error(`HTTP ${res.status} → ${loc || "no redirect"}`);
+    return loc;
+  });
+}
 
 await check("TLS certificate valid for 14+ days", () =>
   new Promise((resolve, reject) => {

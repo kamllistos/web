@@ -3,5 +3,9 @@
 /about/           https://camtoan.me       301
 /certifications   https://camtoan.me       301
 /certifications/  https://camtoan.me       301
+/blog             https://camtoan.me/blog/          301
+/blog/*           https://camtoan.me/blog/:splat    301
+/services         https://camtoan.me/services/      301
+/services/        https://camtoan.me/services/      301
 /features         /search/                 301
 /features/        /search/                 301

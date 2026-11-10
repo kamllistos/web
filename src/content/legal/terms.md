@@ -12,7 +12,7 @@ By using kamllistos.com you agree to these terms. If you don't agree, please don
 
 ## What this site is, and isn't
 
-- **General information, not professional advice.** The security feature database, blog, docs and API are general guidance. They aren't a security assessment of your app or business, and they aren't legal advice.
+- **General information, not professional advice.** The security feature database, docs and API are general guidance. They aren't a security assessment of your app or business, and they aren't legal advice.
 - **No client relationship.** Reading the site, using the API or emailing me doesn't make you a client. That only happens when we agree to a service in writing.
 - **You're responsible for what you build.** Prompts and example code are starting points. AI tools produce output I don't control. Test everything before you rely on it, and get a professional review for anything that matters.
 - **Only test what you're allowed to.** Use what you learn here on systems you own or have written permission to test. Accessing someone else's system without permission is a crime in Canada and most other places.

@@ -26,7 +26,7 @@ DNS: Cloudflare (domain registered at Namecheap)   ·   Email: Proton Mail (SPF,
 | Hosting | Cloudflare Workers static assets (free) | Deploys on git push, global edge network, unlimited traffic |
 | DNS | Cloudflare | Fast DNS; domain registered at Namecheap |
 | Email | Proton Mail | Custom domain, built-in PGP |
-| Writing | Substack | Posts are pulled from the RSS feed at build time into [/blog](https://kamllistos.com/blog/) |
+| Writing | [camtoan.me/blog](https://camtoan.me/blog/) | The blog lives on the personal site; old `/blog` links redirect there |
 
 ## Security
 
@@ -61,8 +61,7 @@ Each live run writes a results table to its run summary on the [Actions tab](htt
 
 ```
 src/site.ts              ← all the text on the site (edit this)
-src/content/blog/        ← blog posts (one Markdown file each)
-src/pages/               ← pages: home, about (incl. certifications), blog, security
+src/pages/               ← pages: home (landing), search, products, docs, legal, security
 src/timeline.ts          ← the About page timeline (edit this)
 src/layouts/Base.astro   ← shared layout (nav, footer)
 src/styles.css           ← design
@@ -87,7 +86,6 @@ npm run check:live     # check the live site
 ## Editing
 
 - **Change text:** edit `src/site.ts`.
-- **New blog post:** add a `.md` file to `src/content/blog/` with a `title`, `description` and `date`.
 
 Pushing to `main` deploys automatically.
 

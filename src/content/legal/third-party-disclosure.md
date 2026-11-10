@@ -22,7 +22,6 @@ I don't sell personal information. I don't share it for advertising. It only goe
 
 - **No analytics, advertising or social media trackers.** None are installed, and the site's security policy blocks third-party scripts.
 - **Fonts, scripts and images are served from this site**, so your browser doesn't contact anyone else to load a page.
-- **Blog posts** are copied from Substack when the site is built. Reading them here doesn't contact Substack.
 - **GitHub** builds the site and hosts the status page. It never receives visitor data from kamllistos.com.
 
 ## When I'd disclose without asking

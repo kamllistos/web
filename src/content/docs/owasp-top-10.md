@@ -20,7 +20,7 @@ The **OWASP Top 10** is the most widely used list of the biggest security risks 
 | **A07 Authentication Failures** | No logins on the site. The accounts that run it (GitHub, Cloudflare, domain, email) use multi-factor authentication and least-privilege tokens. |
 | **A08 Software or Data Integrity Failures** | Every deploy comes from reviewed, public Git history through automated checks. No third-party scripts load in visitors' browsers. |
 | **A09 Security Logging & Alerting Failures** | Hourly live checks and a [status page](https://status.camtoan.me) with automatic incident issues; failures email the owner. (A full SIEM is out of scope for a static site.) |
-| **A10 Mishandling of Exceptional Conditions** | The API catches every error and returns a safe, generic message without stack traces. The build degrades gracefully if Substack or GitHub is unreachable instead of failing open. |
+| **A10 Mishandling of Exceptional Conditions** | The API catches every error and returns a safe, generic message without stack traces. The build degrades gracefully if GitHub is unreachable instead of failing open. |
 
 ## Verify it yourself
 

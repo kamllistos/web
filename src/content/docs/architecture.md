@@ -34,10 +34,9 @@ kamllistos.com is a **static site**. Every page is built ahead of time into plai
 | Part | What it does | Where it lives |
 | --- | --- | --- |
 | Pages | Astro turns text and data into plain HTML and CSS at build time | `src/pages/`, `src/layouts/` |
-| Site text | Names, services and prices | `src/site.ts` |
-| Security feature database | The data behind the home page search and the glossary pages | `src/db.json` |
+| Site text | Names, headline and contact details | `src/site.ts` |
+| Security feature database | The data behind the search page and the glossary pages | `src/db.json` |
 | Docs and legal pages | Written in Markdown | `src/content/docs/`, `src/content/legal/` |
-| Blog | Local posts, plus posts copied from Substack at build time | `src/content/blog/`, `src/substack.ts` |
 | Changelog | Generated from the Git history | `src/changelog.ts` |
 | REST API | Read-only JSON on `/api`, answering GET requests only | `worker/index.ts` |
 | Security headers | Content-Security-Policy, HSTS and the rest | `public/_headers` |
@@ -51,7 +50,7 @@ kamllistos.com is a **static site**. Every page is built ahead of time into plai
 | Cloudflare | Hosting, DNS and the domain registration for kamllistos.com |
 | Proton Mail | Email, with SPF, DKIM and DMARC on the domain |
 | Upptime | The [status page](https://status.camtoan.me), which checks uptime every 5 minutes |
-| Substack | Where blog posts are written |
+| camtoan.me | The owner's personal site, a separate repo on GitHub Pages. The blog and services pages live there; old `/blog` and `/services` links redirect to them. |
 | Gumroad | Checkout for products. Payments never touch this site. |
 
 Each one is labelled honestly on the [stack](/stack/) page. What each can see about visitors is on [Third-party disclosure](/legal/third-party-disclosure/).

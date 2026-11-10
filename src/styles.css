@@ -590,7 +590,8 @@ footer .updated { background: none; color: var(--accent); border: 1px solid var(
 /* Nav: a floating capsule instead of a bar glued to the top edge. */
 .nav.glass {
   top: 12px; width: min(1080px, calc(100% - 24px)); margin: 12px auto 0; border-radius: 999px;
-  background: var(--glass-fill); border: 0; --glass-bezel: 20px;
+  /* page text scrolls under the menu, so it is frostier than the landing card to keep links readable */
+  background: color-mix(in srgb, var(--bg) 55%, transparent); border: 0; --glass-bezel: 20px; --glass-blur: 7px;
 }
 .nav.glass .nav-inner { max-width: none; height: 52px; padding: 0 12px 0 22px; }
 .nav-brand { white-space: nowrap; }
@@ -602,7 +603,7 @@ html { scroll-padding-top: 88px; }
 .pill.glass { position: relative; border-radius: 999px; padding: 12px 22px; color: var(--ink); background: var(--glass-fill); }
 .pill.glass:hover { background: var(--glass-fill); color: var(--accent); }
 .pill.glass-tint, .pill.glass-tint:hover { background: color-mix(in srgb, var(--accent) 82%, transparent); color: #fff; }
-.db-bar.glass { top: 76px; border-radius: 30px; padding: 14px 16px; border: 0; background: var(--glass-fill); --glass-bezel: 16px; }
+.db-bar.glass { top: 76px; border-radius: 30px; padding: 14px 16px; border: 0; background: color-mix(in srgb, var(--bg) 60%, transparent); --glass-bezel: 16px; --glass-blur: 7px; }
 
 @media (prefers-reduced-motion: no-preference) {
   /* Springy, slightly overshooting — the "liquid" part. */

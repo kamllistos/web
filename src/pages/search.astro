@@ -1,0 +1,101 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../site";
+import { entries, categories, catById, priorityLabel } from "../db";
+
+const lc = (a: string[]) => a.join(" ").toLowerCase();
+const musts = entries.filter((e) => e.priority === "must").length;
+
+// Marquee + typewriter: the sloppy ways people actually describe these features.
+const said = entries.flatMap((e) => e.youCalledIt.slice(0, 2).map((q) => ({ q, slug: e.slug })));
+const marquee = said.sort((a, b) => a.q.length - b.q.length).filter((_, i) => i % 2 === 0);
+const hints = ["stop people guessing passwords", "my api key is in the frontend", "someone could read other users' orders", "sql injection", "too many signup bots"];
+---
+
+<Base title={`Search the security feature database — ${site.brand.name}`} description="Describe a security problem in your own words and get the proper name, what it stops, a prompt for your AI agent and code you can copy.">
+  <section class="hero db-hero">
+    <div class="db-hero-inner stagger">
+      <p class="eyebrow">security feature database · {entries.length} entries</p>
+      <h1>What security feature does my app need?</h1>
+      <p class="lead">Describe it in your own words. Each entry has the proper name, what it stops, a prompt for your AI agent and code you can copy.</p>
+      <div class="db-search-wrap">
+        <label for="db-search" class="sr-only">Search the security feature database</label>
+        <svg class="db-search-ico" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.4"></circle><path d="M15.5 15.5 L21 21" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"></path></svg>
+        <input id="db-search" class="db-search" type="search" placeholder="stop people guessing passwords" autocomplete="off" spellcheck="false" data-hints={hints.join("|")} />
+        <span class="db-keys" aria-hidden="true"><kbd>/</kbd></span>
+      </div>
+      <p class="db-tip">Try “<a href="/search/?q=login+brute+force" data-q="login brute force">login brute force</a>”, “<a href="/search/?q=file+upload" data-q="file upload">file upload</a>” or “<a href="/search/?q=secrets+in+git" data-q="secrets in git">secrets in git</a>”.</p>
+    </div>
+  </section>
+
+  <div class="marquee db-marquee" aria-label="Things people search for">
+    <div class="marquee-track">
+      {marquee.map((m) => <a class="marquee-item" href={`/search/?q=${encodeURIComponent(m.q)}`} data-q={m.q}>“{m.q}”</a>)}
+      {marquee.map((m) => <a class="marquee-item" href={`/search/?q=${encodeURIComponent(m.q)}`} data-q={m.q} aria-hidden="true" tabindex="-1">“{m.q}”</a>)}
+    </div>
+  </div>
+
+  <section class="band db-band">
+    <div class="db-bar glass">
+      <div class="chips db-chips" role="group" aria-label="Filter by area">
+        <button class="chip" type="button" data-area="all" aria-pressed="true">All <span class="chip-n">{entries.length}</span></button>
+        <button class="chip chip-must" type="button" data-area="must" aria-pressed="false">Must-haves <span class="chip-n">{musts}</span></button>
+        {categories.map((c) => <button class="chip" type="button" data-area={c.id} aria-pressed="false" title={c.tagline}>{c.short} <span class="chip-n">{c.count}</span></button>)}
+      </div>
+      <div class="db-tools">
+        <p id="db-count" class="db-count" aria-live="polite">{entries.length} features</p>
+        <div class="db-sort" role="group" aria-label="Sort">
+          <button type="button" data-sort="priority" aria-pressed="true">Priority</button>
+          <button type="button" data-sort="az" aria-pressed="false">A–Z</button>
+        </div>
+        <button id="db-surprise" class="db-surprise" type="button">Surprise me ↯</button>
+      </div>
+    </div>
+
+    <div id="db-grid" class="db-grid">
+      {entries.map((e) => {
+        const cat = catById.get(e.category)!;
+        return (
+          <a
+            class="db-card"
+            href={`/glossary/${e.slug}/`}
+            data-cat={e.category}
+            data-pri={e.priority}
+            data-name={e.name.toLowerCase()}
+            data-alias={lc(e.aliases)}
+            data-stops={e.stops.toLowerCase()}
+            data-said={lc(e.youCalledIt)}
+            data-rest={`${e.oneLiner} ${e.cwe ?? ""} ${cat.name}`.toLowerCase()}
+          >
+            <span class="db-spec" aria-hidden="true"><s>{cat.bad}</s><b>{cat.fix}</b></span>
+            <span class="db-meta"><span class="db-cat">{cat.short}</span><span class={`db-pri pri-${e.priority}`}>{priorityLabel[e.priority]}</span></span>
+            <span class="db-name">{e.name}</span>
+            <span class="db-one">{e.oneLiner}</span>
+            <span class="db-stops">Stops: {e.stops}</span>
+          </a>
+        );
+      })}
+    </div>
+
+    <div id="db-empty" class="db-empty" hidden>
+      <p class="db-empty-big">Nothing matched.</p>
+      <p>Try fewer or plainer words (“login”, “upload”, “api key”), <button id="db-reset" class="linkish" type="button">clear the search</button>, or <a href={`mailto:${site.email}?subject=Missing%20from%20the%20database`}>tell me what's missing</a>.</p>
+    </div>
+  </section>
+
+  <section class="band db-areas reveal">
+    <p class="eyebrow">browse by area</p>
+    <div class="db-area-grid">
+      {categories.map((c, i) => (
+        <a class="db-area" href={`/search/?area=${c.id}`}>
+          <span class="db-area-n">{String(i + 1).padStart(2, "0")}</span>
+          <span class="db-area-name">{c.name}</span>
+          <span class="db-area-tag">{c.tagline}</span>
+          <span class="db-area-count">{c.count} entries →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <script is:inline src="/search.js" defer></script>
+</Base>

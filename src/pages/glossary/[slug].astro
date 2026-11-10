@@ -25,8 +25,8 @@ const next = entries[(i + 1) % entries.length];
     <header class="entry-head hero">
       <div class="entry-inner stagger">
         <p class="crumbs">
-          <a href="/">Database</a> <span aria-hidden="true">/</span>
-          <a href={`/?area=${cat.id}`}>{cat.name}</a>
+          <a href="/search/">Database</a> <span aria-hidden="true">/</span>
+          <a href={`/search/?area=${cat.id}`}>{cat.name}</a>
         </p>
         <p class="entry-badges">
           <span class={`db-pri pri-${e.priority}`}>{priorityLabel[e.priority]}</span>
@@ -44,7 +44,7 @@ const next = entries[(i + 1) % entries.length];
         <h2><span class="entry-n">01</span> What it is</h2>
         <p class="entry-explain">{e.explain}</p>
         <p class="entry-said-label">If you searched…</p>
-        <p class="entry-said">{e.youCalledIt.map((q) => <a href={`/?q=${encodeURIComponent(q)}`}>“{q}”</a>)}</p>
+        <p class="entry-said">{e.youCalledIt.map((q) => <a href={`/search/?q=${encodeURIComponent(q)}`}>“{q}”</a>)}</p>
       </section>
 
       <section class="entry-sec reveal">
@@ -112,7 +112,7 @@ const next = entries[(i + 1) % entries.length];
 
     <nav class="cp-nav band" aria-label="Browse the database">
       <a class="cp-prev" href={`/glossary/${prev.slug}/`}><span class="cp-dir">← Previous</span><span class="cp-nav-name">{prev.name}</span></a>
-      <a class="pill" href="/">All features</a>
+      <a class="pill" href="/search/">All features</a>
       <a class="cp-next" href={`/glossary/${next.slug}/`}><span class="cp-dir">Next →</span><span class="cp-nav-name">{next.name}</span></a>
     </nav>
 
@@ -122,7 +122,7 @@ const next = entries[(i + 1) % entries.length];
         <p class="body-lg">Tell me what you're building and I'll tell you which few of these actually matter for you.</p>
         <div class="ctas">
           <a class="pill" href={`mailto:${site.email}`}>Get in touch</a>
-          <a class="more" href="/services/">See what I offer</a>
+          <a class="more" href="https://camtoan.me/services/">See what I offer</a>
         </div>
       </div>
     </section>

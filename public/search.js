@@ -1,4 +1,4 @@
-// Home page search over the security feature database (external file: strict CSP).
+// /search page: search over the security feature database (external file: strict CSP).
 // Cards are server-rendered; this only filters, scores, sorts and animates them.
 (() => {
   const input = document.getElementById("db-search");

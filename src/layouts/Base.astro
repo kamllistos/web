@@ -7,8 +7,9 @@ const latest = (await getChanges())[0];
 
 interface Props {
   title?: string;
+  description?: string;
 }
-const { title = site.name } = Astro.props;
+const { title = site.name, description = site.tagline } = Astro.props;
 ---
 
 <!doctype html>
@@ -16,13 +17,13 @@ const { title = site.name } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={site.tagline} />
+    <meta name="description" content={description} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/icon-48.png" type="image/png" sizes="48x48" />
     <link rel="icon" href="/icon.png" type="image/png" sizes="512x512" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta property="og:title" content={title} />
-    <meta property="og:description" content={site.tagline} />
+    <meta property="og:description" content={description} />
     <meta property="og:image" content="https://kamllistos.com/og.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
@@ -31,15 +32,22 @@ const { title = site.name } = Astro.props;
     <script is:inline src="/theme.js"></script>
   </head>
   <body>
-    <nav class="nav">
+    <!-- Bends whatever sits behind a .glass surface (Chromium only; other browsers get plain frosted glass). -->
+    <svg class="glass-defs" aria-hidden="true" focusable="false">
+      <filter id="liquid" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="7" result="noise" />
+        <feGaussianBlur in="noise" stdDeviation="2" result="soft" />
+        <feDisplacementMap in="SourceGraphic" in2="soft" scale="28" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </svg>
+    <nav class="nav glass">
       <div class="nav-inner">
         <a class="nav-brand" href="/">{site.brand.name}</a>
         <div class="nav-end">
           <div class="nav-links">
           <a href="/">Home</a>
+          <a href="/search/">Search</a>
           <a href="/products/">Products</a>
-          <a href="/blog/">Blog</a>
-          <a href="/services/">Services</a>
           <a href="https://camtoan.me">About</a>
           <a href={`mailto:${site.email}`}>Contact</a>
           </div>

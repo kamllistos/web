@@ -587,3 +587,69 @@ footer .updated { background: none; color: var(--accent); border: 1px solid var(
   .entry-sec { padding: 28px 0; }
   .entry-prompt, .entry-code pre { padding: 14px; font-size: 12px; }
 }
+
+/* ---- Liquid glass: frosted, light-catching surfaces (nav, landing card, search filter bar). ----
+   Hand-built in CSS so the strict Content-Security-Policy holds (no inline styles, no library). */
+.glass-defs { position: absolute; width: 0; height: 0; }
+.glass {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--bg) 60%, transparent), color-mix(in srgb, var(--bg) 32%, transparent));
+  border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent);
+  backdrop-filter: blur(12px) saturate(1.7); -webkit-backdrop-filter: blur(12px) saturate(1.7);
+}
+/* Sheen: light catching the top-left edge and a fainter glint bottom-right. */
+.glass::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, .26), transparent 34%, transparent 66%, rgba(255, 255, 255, .1));
+}
+/* shortcut: Chromium is detected by what Safari and Firefox support and it doesn't; only Chromium can bend the
+   backdrop with an SVG filter. Replace with a real feature query if one ever exists. */
+@supports (not (-webkit-hyphens: none)) and (not (-moz-appearance: none)) {
+  .glass { backdrop-filter: url(#liquid) blur(3px) saturate(1.7); }
+}
+.nav.glass { border-width: 0 0 1px; }
+.db-bar.glass { border-width: 0 0 1px; padding-left: 12px; padding-right: 12px; }
+
+/* ---- Landing page: ASCII clouds drifting over grid paper, a glass card, and an ASCII site tree. ---- */
+.landing {
+  position: relative; overflow: hidden; min-height: calc(100dvh - 61px); display: flex; align-items: center;
+  background-image: linear-gradient(var(--rule) 1px, transparent 1px), linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.landing-inner { position: relative; width: 100%; max-width: 1080px; margin: 0 auto; padding: 72px 1rem 88px; }
+.landing-card { position: relative; max-width: 720px; padding: clamp(24px, 5vw, 48px); }
+.landing-card .lead { margin-left: 0; }
+.landing-card .ctas { justify-content: flex-start; }
+
+.sky { position: absolute; inset: 0; pointer-events: none; }
+.cloud { position: absolute; margin: 0; font: 13px/1.15 var(--mono); color: var(--ink); white-space: pre; user-select: none; }
+.cloud-1 { top: 6%; left: 8%; opacity: .5; font-size: 15px; }
+.cloud-2 { top: 18%; left: 52%; opacity: .75; font-size: 18px; }
+.cloud-3 { top: 40%; left: 24%; opacity: .4; font-size: 13px; }
+.cloud-4 { top: 56%; left: 70%; opacity: .6; font-size: 16px; }
+.cloud-5 { top: 72%; left: 4%; opacity: .45; font-size: 14px; }
+.cloud-6 { top: 82%; left: 44%; opacity: .7; font-size: 19px; }
+@media (prefers-reduced-motion: no-preference) {
+  /* Each cloud starts off-screen left and floats across; negative delays spread them out on first paint. */
+  .cloud { left: 0; animation: drift 90s linear infinite, bob 9s ease-in-out infinite alternate; }
+  .cloud-1 { animation-duration: 110s, 8s; animation-delay: -20s, 0s; }
+  .cloud-2 { animation-duration: 150s, 11s; animation-delay: -95s, -3s; }
+  .cloud-3 { animation-duration: 190s, 7s; animation-delay: -60s, -2s; }
+  .cloud-4 { animation-duration: 130s, 10s; animation-delay: -100s, -5s; }
+  .cloud-5 { animation-duration: 170s, 9s; animation-delay: -15s, -1s; }
+  .cloud-6 { animation-duration: 120s, 12s; animation-delay: -55s, -6s; }
+  @keyframes drift { from { translate: -100% 0; } to { translate: 100vw 0; } }
+  @keyframes bob { from { transform: translateY(-5px); } to { transform: translateY(5px); } }
+}
+
+.tree { margin-top: 40px; font: 13px/1.9 var(--mono); }
+.tree-root { margin: 0; color: var(--accent); }
+.tree ul { margin: 0; padding: 0; list-style: none; }
+.tree li::before { content: "├── "; color: var(--muted); }
+.tree li:last-child::before { content: "└── "; }
+.tree span { color: var(--muted); margin-left: .6ch; }
+.tree span::before { content: "# "; }
+@media (max-width: 600px) {
+  .landing-inner { padding: 40px 1rem 56px; }
+  .tree span { display: block; margin-left: 4ch; line-height: 1.4; padding-bottom: 6px; }
+  .sky .cloud { font-size: 10px; }
+}

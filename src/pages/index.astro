@@ -2,7 +2,7 @@
 import Base from "../layouts/Base.astro";
 import { site } from "../site";
 import { entries } from "../db";
-import { clouds, whale, birds, stars } from "../sky";
+import { birds, stars } from "../sky";
 
 const tree = [
   { href: "/search/", name: "search/", note: `${entries.length} security features, searchable in plain words` },
@@ -16,12 +16,8 @@ const tree = [
   <section class="landing">
     <div class="sky" aria-hidden="true">
       {stars.map((s) => <span class="star">{s}</span>)}
-      {clouds.map((c, i) => <pre class={`cloud cloud-${i + 1}`}>{c}</pre>)}
       <div class="flyer birds">{birds.map((f) => <pre>{f}</pre>)}</div>
-      {/* A whale and its calf: .swim carries them across, .loop swings them through a full loop on the way. */}
-      {["", " calf"].map((who) => (
-        <div class={`swim${who}`}><div class="loop"><div class="flyer whale">{whale.map((f) => <pre>{f}</pre>)}</div></div></div>
-      ))}
+      <canvas class="sky-canvas" aria-hidden="true"></canvas>
     </div>
 
     <div class="landing-inner">
@@ -35,7 +31,7 @@ const tree = [
         </div>
       </div>
 
-      <nav class="tree reveal" aria-label="What's on this site">
+      <nav class="tree glass reveal" aria-label="What's on this site">
         <p class="tree-root">kamllistos.com/</p>
         <ul>
           {tree.map((t) => (
@@ -46,3 +42,9 @@ const tree = [
     </div>
   </section>
 </Base>
+
+<script>
+  import { startSkySea } from "../skysea";
+  const canvas = document.querySelector<HTMLCanvasElement>(".sky-canvas");
+  if (canvas) startSkySea(canvas);
+</script>

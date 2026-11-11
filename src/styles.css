@@ -18,15 +18,18 @@
   --green: color-mix(in srgb, #2f9e44 22%, var(--bg));
   --on-color: var(--ink);
   --link: inherit;
+  --sky-ink: var(--accent); --sky-ink-hot: color-mix(in srgb, var(--accent) 70%, black);
   color-scheme: light dark;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    --sky-ink: color-mix(in srgb, var(--accent) 85%, var(--bg)); --sky-ink-hot: color-mix(in srgb, var(--accent) 60%, white);
     --bg: #121211; --ink: #ecebe7; --muted: #9a9995; --accent: #ff5a2e;
     --line: rgba(236, 235, 231, .22); --rule: rgba(236, 235, 231, .07);
   }
 }
 :root[data-theme="dark"] {
+  --sky-ink: color-mix(in srgb, var(--accent) 85%, var(--bg)); --sky-ink-hot: color-mix(in srgb, var(--accent) 60%, white);
   --bg: #121211; --ink: #ecebe7; --muted: #9a9995; --accent: #ff5a2e;
   --line: rgba(236, 235, 231, .22); --rule: rgba(236, 235, 231, .07);
 }
@@ -551,24 +554,24 @@ footer .updated { background: none; color: var(--accent); border: 1px solid var(
    shadow, springy hover. public/glass.js adds the real bending of the backdrop at the rim (Chromium);
    without it this is frosted glass. Hand-built so the strict Content-Security-Policy holds — no library. */
 :root {
-  --glass-fill: rgba(255, 255, 255, .1); --glass-rim: rgba(255, 255, 255, .95); --glass-rim-dim: rgba(255, 255, 255, .28);
+  --glass-fill: rgba(255, 255, 255, .04); --glass-rim: rgba(255, 255, 255, .95); --glass-rim-dim: rgba(255, 255, 255, .28);
   --glass-glow: rgba(255, 255, 255, .14); --glass-shade: rgba(29, 29, 29, .22);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --glass-fill: rgba(255, 255, 255, .03); --glass-rim: rgba(255, 255, 255, .55); --glass-rim-dim: rgba(255, 255, 255, .1);
+    --glass-fill: rgba(255, 255, 255, .012); --glass-rim: rgba(255, 255, 255, .55); --glass-rim-dim: rgba(255, 255, 255, .1);
     --glass-glow: rgba(255, 255, 255, .06); --glass-shade: rgba(0, 0, 0, .65);
   }
 }
 :root[data-theme="dark"] {
-  --glass-fill: rgba(255, 255, 255, .03); --glass-rim: rgba(255, 255, 255, .55); --glass-rim-dim: rgba(255, 255, 255, .1);
+  --glass-fill: rgba(255, 255, 255, .012); --glass-rim: rgba(255, 255, 255, .55); --glass-rim-dim: rgba(255, 255, 255, .1);
   --glass-glow: rgba(255, 255, 255, .06); --glass-shade: rgba(0, 0, 0, .65);
 }
 .glass-defs { position: absolute; width: 0; height: 0; }
 .glass {
-  --glint: 135deg; --glass-blur: .8px;
+  --glint: 135deg; --glass-blur: 0px;
   isolation: isolate; border: 0; border-radius: 40px; background: var(--glass-fill);
-  backdrop-filter: blur(6px) saturate(1.8); -webkit-backdrop-filter: blur(6px) saturate(1.8);
+  backdrop-filter: blur(2px) saturate(1.6); -webkit-backdrop-filter: blur(2px) saturate(1.6);
   /* The rest of the site is flat (no shadows); glass is the one place depth is allowed. */
   box-shadow:
     inset 0 1px 1px var(--glass-rim), inset 0 -1px 1px var(--glass-rim-dim), inset 0 0 26px var(--glass-glow),
@@ -590,8 +593,8 @@ footer .updated { background: none; color: var(--accent); border: 1px solid var(
 /* Nav: a floating capsule instead of a bar glued to the top edge. */
 .nav.glass {
   top: 12px; width: min(1080px, calc(100% - 24px)); margin: 12px auto 0; border-radius: 999px;
-  /* page text scrolls under the menu, so it is frostier than the landing card to keep links readable */
-  background: color-mix(in srgb, var(--bg) 55%, transparent); border: 0; --glass-bezel: 20px; --glass-blur: 7px;
+  /* page text scrolls under the menu, so it is kept slightly frosted so links stay readable, but clear */
+  background: color-mix(in srgb, var(--bg) 32%, transparent); border: 0; --glass-bezel: 20px; --glass-blur: 2.5px;
 }
 .nav.glass .nav-inner { max-width: none; height: 52px; padding: 0 12px 0 22px; }
 .nav-brand { white-space: nowrap; }
@@ -602,13 +605,15 @@ html { scroll-padding-top: 88px; }
 /* Glass buttons: clear capsule, or tinted with the accent for the main action. */
 .pill.glass { position: relative; border-radius: 999px; padding: 12px 22px; color: var(--ink); background: var(--glass-fill); }
 .pill.glass:hover { background: var(--glass-fill); color: var(--accent); }
-.pill.glass-tint, .pill.glass-tint:hover { background: color-mix(in srgb, var(--accent) 82%, transparent); color: #fff; }
+/* Primary button: same clear glass as the others, with an orange tint so it still reads as the main action. */
+.pill.glass-tint { background: color-mix(in srgb, var(--accent) 22%, transparent); color: var(--ink); }
+.pill.glass-tint:hover { background: color-mix(in srgb, var(--accent) 34%, transparent); color: var(--ink); }
 .db-bar.glass { top: 76px; border-radius: 30px; padding: 14px 16px; border: 0; background: color-mix(in srgb, var(--bg) 60%, transparent); --glass-bezel: 16px; --glass-blur: 7px; }
 
 @media (prefers-reduced-motion: no-preference) {
   /* Springy, slightly overshooting — the "liquid" part. */
   .glass { transition: transform .45s cubic-bezier(.34, 1.56, .64, 1), box-shadow .3s; }
-  .landing-card.glass:hover { transform: scale(1.012); }
+  /* No grow-on-hover for the landing card: scaling a lensed element shows the backdrop edge as a green line at the rim. */
   .pill.glass:hover { transform: scale(1.06); }
   .pill.glass:active { transform: scale(.96); }
 }
@@ -619,7 +624,7 @@ html { scroll-padding-top: 88px; }
   .db-bar.glass { top: auto; }
 }
 
-/* ---- Landing page: ASCII clouds drifting over grid paper, a glass card, and an ASCII site tree. ---- */
+/* ---- Landing page: ASCII sky over grid paper, a glass card, and an ASCII site tree. ---- */
 .landing {
   position: relative; overflow: hidden; min-height: 100dvh; margin-top: -64px; padding-top: 64px; display: flex; align-items: center;
   background-image: linear-gradient(var(--rule) 1px, transparent 1px), linear-gradient(90deg, var(--rule) 1px, transparent 1px);
@@ -632,27 +637,7 @@ html { scroll-padding-top: 88px; }
 
 .sky { position: absolute; inset: 0; pointer-events: none; }
 .sky { font-size: clamp(8px, 1.05vw, 15px); }
-.cloud { position: absolute; margin: 0; font: 1em/1.15 var(--mono); color: var(--ink); white-space: pre; user-select: none; }
-.cloud-1 { top: 6%; left: 8%; opacity: .5; font-size: 1em; }
-.cloud-2 { top: 18%; left: 52%; opacity: .75; font-size: 1.25em; }
-.cloud-3 { top: 40%; left: 24%; opacity: .4; font-size: .9em; }
-.cloud-4 { top: 56%; left: 70%; opacity: .6; font-size: 1.1em; }
-.cloud-5 { top: 72%; left: 4%; opacity: .45; font-size: .95em; }
-.cloud-6 { top: 82%; left: 44%; opacity: .7; font-size: 1.3em; }
-@media (prefers-reduced-motion: no-preference) {
-  /* Each cloud starts off-screen left and floats across; negative delays spread them out on first paint. */
-  .cloud { left: 0; animation: drift 90s linear infinite, bob 9s ease-in-out infinite alternate; }
-  .cloud-1 { animation-duration: 110s, 8s; animation-delay: -20s, 0s; }
-  .cloud-2 { animation-duration: 150s, 11s; animation-delay: -95s, -3s; }
-  .cloud-3 { animation-duration: 190s, 7s; animation-delay: -60s, -2s; }
-  .cloud-4 { animation-duration: 130s, 10s; animation-delay: -100s, -5s; }
-  .cloud-5 { animation-duration: 170s, 9s; animation-delay: -15s, -1s; }
-  .cloud-6 { animation-duration: 120s, 12s; animation-delay: -55s, -6s; }
-  @keyframes drift { from { translate: -100% 0; } to { translate: 100vw 0; } }
-  @keyframes bob { from { transform: translateY(-5px); } to { transform: translateY(5px); } }
-}
-
-/* Stars twinkle in place; birds and a whale fly through now and then (only when motion is allowed). */
+/* Stars twinkle in place; birds fly through now and then; clouds and whale are drawn by src/skysea.ts. */
 .star { position: absolute; font: 14px/1 var(--mono); color: var(--muted); opacity: .5; }
 .star:nth-child(1) { top: 9%; left: 21%; } .star:nth-child(2) { top: 15%; left: 43%; } .star:nth-child(3) { top: 7%; left: 67%; }
 .star:nth-child(4) { top: 27%; left: 88%; } .star:nth-child(5) { top: 36%; left: 6%; } .star:nth-child(6) { top: 47%; left: 58%; }
@@ -661,14 +646,9 @@ html { scroll-padding-top: 88px; }
 .flyer { position: absolute; left: 0; display: none; }
 .flyer pre { margin: 0; font: 1em/1.1 var(--mono); white-space: pre; }
 .flyer pre + pre { position: absolute; inset: 0; }
-.whale { position: relative; color: var(--accent); }
-.whale pre { font-size: clamp(9px, 1.25vw, 17px); }
-/* The whale's path: .swim carries it across the sky, .loop swings it round a circle whose centre is above it. */
-.swim { position: absolute; left: 0; top: 50%; display: none; }
-.swim.calf { top: 60%; }
-.calf .whale pre { font-size: clamp(6px, .8vw, 11px); }
-.loop { --r: clamp(70px, 17vh, 180px); transform-origin: 50% calc(50% - var(--r)); }
-.calf .loop { --r: clamp(50px, 12vh, 120px); }
+.sky-probe { display: none; color: var(--sky-ink); }
+.sky-probe.hot { color: var(--sky-ink-hot); }
+.sky-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .birds { top: 12%; color: var(--ink); opacity: .7; }
 @media (prefers-reduced-motion: no-preference) {
   .star { animation: twinkle 3.4s ease-in-out infinite; }
@@ -682,16 +662,6 @@ html { scroll-padding-top: 88px; }
   .birds pre { animation-duration: .45s; }
   @keyframes frame-a { 0% { opacity: 1; } 50% { opacity: 0; } }
   @keyframes frame-b { 0% { opacity: 0; } 50% { opacity: 1; } }
-  /* Every 34 seconds the whale swims in from the left, loops the loop mid-screen (belly-up at the top, like a
-     real breach roll), and swims out to the right. Its calf follows a couple of seconds behind on a smaller loop. */
-  .swim { display: block; animation: swim 34s linear 1.5s infinite backwards; }
-  .loop { animation: loop 34s ease-in-out 1.5s infinite backwards; }
-  .swim.calf, .calf .loop { animation-delay: 3.6s; }
-  @keyframes swim { 0% { translate: -45vw 4vh; } 30% { translate: 28vw -2vh; } 64%, 100% { translate: 112vw -10vh; } }
-  @keyframes loop { 0%, 24% { rotate: 0deg; } 42%, 100% { rotate: -360deg; } }
-  .whale { animation: whale-bob 2.8s ease-in-out infinite alternate; }
-  .whale pre { animation-duration: .7s; }
-  @keyframes whale-bob { from { transform: translateY(-7px) rotate(-5deg); } to { transform: translateY(7px) rotate(4deg); } }
   .birds { animation: birds-pass 36s linear 9s infinite backwards; }
   @keyframes birds-pass { 0% { translate: -130% 0; } 55%, 100% { translate: 100vw -70px; } }
 }
@@ -712,11 +682,12 @@ html { scroll-padding-top: 88px; }
 /* ==== Glass everywhere, fluid sizing. ====
    Last on purpose: it restyles the older flat components (cards, chips, inputs, badges, footer) as glass panes and
    capsules without touching their markup, and swaps fixed pixel sizes for ones that flow with the window width.
-   Panes are the cheap version of .glass (fill, rim, shadow — no backdrop filter), so 70 cards stay smooth. */
+   Panes are real glass too: public/glass.js adds .glass.pane to them and builds each lens only once it nears the
+   screen. They keep a denser fill and a lighter shadow than the big glass surfaces so text stays easy to read. */
 :root {
   --r-lg: clamp(24px, 3.2vw, 40px); --r-md: clamp(16px, 2vw, 24px);
   --gutter: clamp(14px, 3.5vw, 40px); --gap: clamp(10px, 1.4vw, 16px);
-  --pane: rgba(255, 255, 255, .58); --pane-edge: rgba(29, 29, 29, .08); --pane-rim: rgba(255, 255, 255, .95);
+  --pane: rgba(255, 255, 255, .3); --pane-edge: rgba(29, 29, 29, .08); --pane-rim: rgba(255, 255, 255, .95);
   --pane-shadow: inset 0 1px 0 var(--pane-rim), inset 0 0 0 1px var(--pane-edge), 0 1px 2px rgba(0, 0, 0, .05), 0 16px 34px -20px var(--glass-shade);
 }
 @media (prefers-color-scheme: dark) {
@@ -744,9 +715,13 @@ body {
 
 /* Panes: every box. */
 .db-card, .tile, .product-card, .stack-card, .cl-day, .entry-parts li, .entry-prompt, .entry-code, .doc pre, .doc table,
-.db-area, .tree, .cp-prev, .cp-next, footer {
+.db-area, .cp-prev, .cp-next, footer, footer.glass {
   background: var(--pane); border: 0; border-radius: var(--r-md); box-shadow: var(--pane-shadow) !important;
 }
+.pane.glass { position: relative; --glass-bezel: 14px; }
+.pane.glass::after { display: none; }
+/* Search cards already use ::before for the orange hover bar; keep that bar instead of the rim line. */
+.db-card.glass::before { inset: 0 auto 0 0; width: 3px; padding: 0; border-radius: 0; background: var(--accent); -webkit-mask: none; mask: none; }
 .db-grid, .entry-parts { gap: var(--gap); border: 0; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
 .db-area-grid { gap: var(--gap); border: 0; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); }
 .products, .stack-grid, .tiles { gap: var(--gap); grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); }
@@ -762,8 +737,10 @@ body {
 .doc td code, .doc th code { white-space: normal; overflow-wrap: anywhere; }
 .prose code { word-break: normal; overflow-wrap: anywhere; }
 .tree { width: fit-content; max-width: 100%; padding: 16px 22px; }
+/* The site tree sits on the sky next to the landing card, so it gets the same real glass lens. */
+.tree.glass { position: relative; border-radius: 28px; --glass-bezel: 18px; }
 .cp-prev, .cp-next { padding: 12px 18px; }
-footer { width: min(1080px, calc(100% - 24px)); margin: clamp(24px, 5vw, 64px) auto 16px; padding: 18px var(--gutter); border-radius: var(--r-lg); }
+footer, footer.glass { width: min(1080px, calc(100% - 24px)); margin: clamp(24px, 5vw, 64px) auto 16px; padding: 18px var(--gutter); border-radius: var(--r-lg); }
 
 /* Capsules: every control and badge. */
 .pill, .chip, .marquee-item, .copy-btn, .db-surprise, .db-sort, .theme, .entry-said a, .entry-cwe, .db-pri, .status,

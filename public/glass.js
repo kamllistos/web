@@ -2,6 +2,9 @@
 // colours split slightly at the edge, and the rim light turns toward the pointer.
 // External file because the strict Content-Security-Policy allows no inline code. No library.
 (() => {
+  // Panes (cards, tiles, code boxes, the footer) are glass too; the class is added here so the markup stays plain.
+  const PANES = ".db-card, .tile, .product-card, .stack-card, .cl-day, .entry-parts li, .entry-prompt, .entry-code, .doc pre, .doc table, .db-area, .cp-prev, .cp-next, footer";
+  document.querySelectorAll(PANES).forEach((el) => el.classList.add("glass", "pane"));
   const els = [...document.querySelectorAll(".glass")];
   if (!els.length) return;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -81,9 +84,9 @@
 
     const f = make("filter", { id, x: 0, y: 0, width: w, height: h, filterUnits: "userSpaceOnUse", "color-interpolation-filters": "sRGB" });
     f.append(make("feImage", { href: lensMap(w, h, radius, bezel), x: 0, y: 0, width: w, height: h, preserveAspectRatio: "none", result: "map" }));
-    // Three passes, one per colour, each bent a little less: the rim gets a faint rainbow fringe.
+    // Three passes, one per colour, each bent less: the rim splits into a visible rainbow fringe.
     const keep = { r: "1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0", g: "0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0", b: "0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" };
-    [["r", 1], ["g", 0.975], ["b", 0.95]].forEach(([c, k]) => {
+    [["r", 1], ["g", 0.93], ["b", 0.86]].forEach(([c, k]) => {
       f.append(make("feDisplacementMap", { in: "SourceGraphic", in2: "map", scale: scale * k, xChannelSelector: "R", yChannelSelector: "G", result: `d${c}` }));
       f.append(make("feColorMatrix", { in: `d${c}`, type: "matrix", values: keep[c], result: c }));
     });
@@ -91,7 +94,8 @@
     f.append(make("feBlend", { in: "rg", in2: "b", mode: "screen" }));
     defs.append(f);
 
-    const css = `url(#${id}) blur(${cs.getPropertyValue("--glass-blur").trim() || "2px"}) saturate(1.8)`;
+    // Blur first, then bend: blurring after the lens would smear the colour fringe away.
+    const css = `blur(${cs.getPropertyValue("--glass-blur").trim() || "2px"}) url(#${id}) saturate(1.8)`;
     el.style.backdropFilter = css;
   }
 
@@ -102,5 +106,9 @@
     for (const e of entries) pending.add(e.target);
     requestAnimationFrame(() => { pending.forEach(apply); pending.clear(); });
   });
-  lenses.forEach((el) => ro.observe(el));
+  // Only build a lens once its element scrolls near the screen: the search page has 70 cards.
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { io.unobserve(e.target); ro.observe(e.target); }
+  }, { rootMargin: "300px" });
+  lenses.forEach((el) => io.observe(el));
 })();

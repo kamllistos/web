@@ -9,3 +9,4 @@
 /services/        https://camtoan.me/services/      301
 /features         /search/                 301
 /features/        /search/                 301
+/favicon.ico      /icon-48.png             301

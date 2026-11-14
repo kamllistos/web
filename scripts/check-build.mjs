@@ -15,11 +15,20 @@ const files = (dir) =>
 
 const html = files(DIST).filter((f) => f.endsWith(".html"));
 
+// SEO: every page is in the sitemap, and the AI-assistant map exists.
+const sitemap = readFileSync(join(DIST, "sitemap.xml"), "utf8");
+for (const file of html) {
+  if (file.endsWith("404.html")) continue;
+  const path = "/" + file.slice(DIST.length + 1).replace(/index\.html$/, "");
+  if (!sitemap.includes(`<loc>https://kamllistos.com${path}</loc>`)) fail(`${file}: missing from sitemap.xml (add it in src/pages/sitemap.xml.ts)`);
+}
+if (!existsSync(join(DIST, "llms.txt"))) fail("dist/llms.txt missing");
+
 for (const file of html) {
   const src = readFileSync(file, "utf8");
 
   // 1. Our Content-Security-Policy blocks inline code, so none may ship.
-  if (/<script(?![^>]*\bsrc=)[^>]*>/i.test(src)) fail(`${file}: inline <script> (blocked by CSP)`);
+  if (/<script(?![^>]*\b(src=|type="application\/ld\+json"))[^>]*>/i.test(src)) fail(`${file}: inline <script> (blocked by CSP)`);
   if (/<style[\s>]/i.test(src)) fail(`${file}: inline <style> (blocked by CSP)`);
   if (/\sstyle="/i.test(src)) fail(`${file}: inline style="" attribute (blocked by CSP)`);
 

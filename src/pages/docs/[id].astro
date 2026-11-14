@@ -12,7 +12,7 @@ const { doc, next } = Astro.props;
 const { Content } = await render(doc);
 ---
 
-<Base title={`${doc.data.title} — Docs — ${site.name}`}>
+<Base title={`${doc.data.title} — Docs — ${site.brand.name}`} description={doc.data.description} type="article">
   <article class="prose doc">
     <a class="back" href="/docs/">← All docs</a>
     <p class="eyebrow">Docs</p>

@@ -12,7 +12,7 @@ const { page, next } = Astro.props;
 const { Content } = await render(page);
 ---
 
-<Base title={`${page.data.title} — Legal — ${site.name}`}>
+<Base title={`${page.data.title} — Legal — ${site.brand.name}`} description={page.data.description}>
   <article class="prose doc">
     <a class="back" href="/legal/">← All legal pages</a>
     <p class="eyebrow">Legal & privacy</p>

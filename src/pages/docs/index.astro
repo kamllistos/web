@@ -6,7 +6,7 @@ import { site } from "../../site";
 const docs = (await getCollection("docs")).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Base title={`Docs — ${site.name}`}>
+<Base title={`Docs — ${site.brand.name}`} description="Plain-English documentation for how kamllistos.com is built and secured. No keys, tokens or account details.">
   <section class="hero stagger">
     <p class="eyebrow">Docs</p>
     <h1>How it's<span>built & secured.</span></h1>

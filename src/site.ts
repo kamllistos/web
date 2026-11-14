@@ -10,6 +10,7 @@ export const site = {
   brand: {
     name: "Kamllistos",
     pronounce: "kam-LEES-tos",
+    description: "Small, useful security tools for people without a security team. Start with the free, searchable security feature database.",
     meaning:
       "A play on my name, Cam, and the Greek Κάλλιστος (kállistos) — “most excellent.” It's the banner the tools and products here live under.",
     product: "feature-lookup",

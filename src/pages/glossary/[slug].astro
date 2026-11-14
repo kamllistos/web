@@ -20,7 +20,7 @@ const prev = entries[(i - 1 + entries.length) % entries.length];
 const next = entries[(i + 1) % entries.length];
 ---
 
-<Base title={`${e.name} — Security feature database — ${site.name}`}>
+<Base title={`${e.name} — Security feature database — ${site.brand.name}`} description={`${e.oneLiner} Stops: ${e.stops}`} type="article" ld={{ "@context": "https://schema.org", "@type": "DefinedTerm", name: e.name, alternateName: e.aliases, description: e.oneLiner, url: `https://kamllistos.com/glossary/${e.slug}/`, inDefinedTermSet: { "@type": "DefinedTermSet", name: "Kamllistos security feature database", url: "https://kamllistos.com/search/" } }}>
   <article class="entry">
     <header class="entry-head hero">
       <div class="entry-inner stagger">

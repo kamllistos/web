@@ -8,8 +8,23 @@ const latest = (await getChanges())[0];
 interface Props {
   title?: string;
   description?: string;
+  type?: "website" | "article";
+  ld?: object;
 }
-const { title = site.name, description = site.tagline } = Astro.props;
+const { title = site.brand.name, description = site.brand.description, type = "website", ld } = Astro.props;
+const url = new URL(Astro.url.pathname, Astro.site).href;
+// Structured data for search engines and AI answer engines: who runs the site, plus any page-specific item.
+const org = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: site.brand.name,
+  url: "https://kamllistos.com/",
+  logo: "https://kamllistos.com/icon.png",
+  description: site.brand.description,
+  founder: { "@type": "Person", name: site.name, url: "https://camtoan.me" },
+  sameAs: site.links.map((l) => l.url),
+};
+const graph = JSON.stringify(ld ? [org, ld] : org).replace(/</g, "\\u003c");
 ---
 
 <!doctype html>
@@ -22,11 +37,16 @@ const { title = site.name, description = site.tagline } = Astro.props;
     <link rel="icon" href="/icon-48.png" type="image/png" sizes="48x48" />
     <link rel="icon" href="/icon.png" type="image/png" sizes="512x512" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={site.brand.name} />
+    <meta property="og:url" content={url} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content="https://kamllistos.com/og.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="canonical" href={url} />
+    <link rel="sitemap" href="/sitemap.xml" />
+    <script type="application/ld+json" set:html={graph} />
     <title>{title}</title>
     <meta name="color-scheme" content="light dark" />
     <script is:inline src="/theme.js"></script>
